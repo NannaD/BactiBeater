@@ -6,4 +6,151 @@
     android:layout_height="match_parent"
     tools:context=".OverviewActivity">
 
+    <TextView
+        android:id="@+id/signInTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="92dp"
+        android:fontFamily="sans-serif-medium"
+        android:includeFontPadding="false"
+        android:text="@string/daily_overview"
+        android:textColor="#00796B"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/usernameTB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.064"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/currentDateTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:includeFontPadding="false"
+        android:text="XX-XX-XXXX"
+        android:textColor="#26A69A"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="132dp"
+        tools:layout_editor_absoluteY="132dp" />
+
+    <TextView
+        android:id="@+id/greenHotspotTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:includeFontPadding="false"
+        android:text="@string/green_hotspot"
+        android:textColor="#3E0B0A0A"
+        android:textSize="12sp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="182dp" />
+
+    <ImageView
+        android:id="@+id/bactibeaterIV"
+        android:layout_width="120dp"
+        android:layout_height="109dp"
+        android:layout_marginTop="28dp"
+        android:outlineSpotShadowColor="#FFFFFF"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.907"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/currentDateTextTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:includeFontPadding="false"
+        android:text="@string/current_date"
+        android:textColor="#26A69A"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="132dp" />
+
+    <TextView
+        android:id="@+id/redHotspotTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:includeFontPadding="false"
+        android:text="@string/red_hotspot"
+        android:textColor="#3E0B0A0A"
+        android:textSize="12sp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="203dp" />
+
+    <Button
+        android:id="@+id/specificDataB"
+        android:layout_width="180dp"
+        android:layout_height="38dp"
+        android:layout_marginBottom="80dp"
+        android:background="#80CBC4"
+        android:shadowColor="#B2DFDB"
+        android:text="@string/choose_specific_location"
+        android:textAllCaps="false"
+        android:textColor="#00796B"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.069"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/goBackB"
+        android:layout_width="85dp"
+        android:layout_height="38dp"
+        android:layout_marginBottom="80dp"
+        android:background="#80CBC4"
+        android:shadowColor="#B2DFDB"
+        android:text="@string/go_back"
+        android:textAllCaps="false"
+        android:textColor="#00796B"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/exitB"
+        android:layout_width="85dp"
+        android:layout_height="38dp"
+        android:layout_marginBottom="32dp"
+        android:background="#80CBC4"
+        android:shadowColor="#B2DFDB"
+        android:text="@string/exit"
+        android:textAllCaps="false"
+        android:textColor="#00796B"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/inputGreenHotspotTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:includeFontPadding="false"
+        android:text=""
+        android:textColor="#3E0B0A0A"
+        android:textSize="12sp"
+        tools:layout_editor_absoluteX="113dp"
+        tools:layout_editor_absoluteY="182dp" />
+
+    <TextView
+        android:id="@+id/inputRedHotspotTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:includeFontPadding="false"
+        android:text=""
+        android:textColor="#3E0B0A0A"
+        android:textSize="12sp"
+        tools:layout_editor_absoluteX="113dp"
+        tools:layout_editor_absoluteY="203dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

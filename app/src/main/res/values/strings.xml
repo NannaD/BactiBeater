@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">BactiBeater</string>
+    <string name="sign_in">Sign In</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="exit">Exit</string>
+    <string name="daily_overview">Daily Overview</string>
+    <string name="current_date">Current Date:</string>
+    <string name="choose_specific_location">Choose Specific Location</string>
+    <string name="go_back">Go Back</string>
+    <string name="green_hotspot">Green Hotspot:</string>
+    <string name="red_hotspot">Red Hotspot:</string>
+    <string name="search_for_location">Search for location</string>
+    <string name="data_on_sanitizing_at">Data For Sanitizing At:</string>
+    <string name="department_xx">Department XXXXXXXXX</string>
+    <string name="show_data_in_percent">Show Data In %</string>
+    <string name="show_data_in_hours">Show Data In Hours</string>
 </resources>

@@ -4,15 +4,127 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".SignInActivity">
 
+    <EditText
+        android:id="@+id/usernameTB"
+        android:layout_width="334dp"
+        android:layout_height="38dp"
+        android:layout_marginBottom="44dp"
+        android:ems="10"
+        android:hint="@string/username"
+        android:inputType="textPersonName"
+        android:textColor="#3E0B0A0A"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/passwordTB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/passwordTB"
+        android:layout_width="334dp"
+        android:layout_height="41dp"
+        android:layout_marginBottom="36dp"
+        android:ems="10"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:textColor="#3E0B0A0A"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/signInB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
+        android:id="@+id/signInTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hej der manner hihih Nanna!"
+        android:layout_marginTop="264dp"
+        android:fontFamily="sans-serif-medium"
+        android:includeFontPadding="false"
+        android:text="@string/sign_in"
+        android:textColor="#00796B"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/usernameTB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/usernameTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="sans-serif-medium"
+        android:includeFontPadding="false"
+        android:text="@string/username"
+        android:textColor="#26A69A"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/usernameTB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.118"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/passwordTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="sans-serif-medium"
+        android:includeFontPadding="false"
+        android:text="@string/password"
+        android:textColor="#26A69A"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/passwordTB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.117"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/signInB"
+        android:layout_width="126dp"
+        android:layout_height="32dp"
+        android:layout_marginBottom="172dp"
+        android:background="#80CBC4"
+        android:shadowColor="#B2DFDB"
+        android:text="@string/sign_in"
+        android:textAllCaps="false"
+        android:textColor="#00796B"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/exitB"
+        android:layout_width="97dp"
+        android:layout_height="32dp"
+        android:layout_marginBottom="36dp"
+        android:background="#80CBC4"
+        android:shadowColor="#B2DFDB"
+        android:text="@string/exit"
+        android:textAllCaps="false"
+        android:textColor="#F6F6F6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.907"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/bactibeaterIV"
+        android:layout_width="169dp"
+        android:layout_height="148dp"
+        android:layout_marginBottom="36dp"
+        android:outlineSpotShadowColor="#FFFFFF"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintBottom_toTopOf="@+id/signInTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

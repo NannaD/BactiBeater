@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BactiBeater</string>
+    <string name="sign_in">Log Ind</string>
+    <string name="username">Brugernavn</string>
+    <string name="password">Password</string>
+    <string name="exit">Forlad</string>
+    <string name="daily_overview">Dagligt Overbik</string>
+    <string name="current_date">Nuværende Dato:</string>
+    <string name="choose_specific_location">Vælg Specifik Lokation</string>
+    <string name="go_back">Tilbage</string>
+    <string name="green_hotspot">Grønt Hotspot:</string>
+    <string name="red_hotspot">Rødt Hotspot:</string>
+    <string name="search_for_location">Søg efter lokation</string>
+    <string name="data_on_sanitizing_at">Data for håndhygiejne ved:</string>
+    <string name="department_xx">Afdeling XXXXXXXXX</string>
+    <string name="show_data_in_percent">Vis data i %</string>
+    <string name="show_data_in_hours">Vis data i timer</string>
+</resources>

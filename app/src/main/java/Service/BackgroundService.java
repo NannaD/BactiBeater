@@ -49,15 +49,17 @@ public class BackgroundService extends Service {
 
     private final IBinder binder = new LocalBinder();
 
-    @Nullable
+
     @Override
-    public IBinder onBind(Intent intent) {
-        return null;
+    public IBinder onBind(Intent intent)
+    {
+        return binder;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(LOG, "Service running");
+        broadcastTest();
         return super.onStartCommand(intent, flags, startId);
     }
 

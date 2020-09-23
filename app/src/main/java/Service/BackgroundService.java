@@ -35,11 +35,19 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import Database.TaskApplication;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class BackgroundService extends Service {
     private static final String LOG = "MyBackgroundService";
+    private static final String BROADCASTTEST = "test";
+
+    public class LocalBinder extends Binder {
+        public BackgroundService getService() {
+            return BackgroundService.this;
+        }
+    }
+
+    private final IBinder binder = new LocalBinder();
 
     @Nullable
     @Override
@@ -53,37 +61,11 @@ public class BackgroundService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    public class LocalBinder extends Binder {
-        public BackgroundService getService() {
-            return BackgroundService.this;
-        }
-    }
-
-    private final IBinder binder = new LocalBinder();
-
-
-    private void broadcastPlayersList() {
+    private void broadcastTest() {
         Intent broadcastIntent = new Intent();
-        broadcastIntent.setAction(BROADCASTPLAYERLIST);
+        broadcastIntent.setAction(BROADCASTTEST);
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
     }
-
-    private void broadcastTopThreePlayersList(){
-        Intent ttbroadcastIntent = new Intent();
-        ttbroadcastIntent.setAction(BROADCASTTOPTHREE);
-
-        LocalBroadcastManager.getInstance(this).sendBroadcast(ttbroadcastIntent);
-    }
-
-    private void broadcastLocation(){
-        Intent locbroadcastIntent = new Intent();
-        locbroadcastIntent.setAction(BROADCASTLOCATION);
-
-        LocalBroadcastManager.getInstance(this).sendBroadcast(locbroadcastIntent);
-    }
-
-
-
 
 }

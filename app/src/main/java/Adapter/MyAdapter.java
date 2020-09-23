@@ -1,4 +1,4 @@
-package Adapter;
+/*package Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -53,4 +53,4 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
 
-}
+} */

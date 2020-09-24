@@ -1,4 +1,4 @@
-/*package Adapter;
+package Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -16,9 +16,9 @@ import kathrine.nanna.bactibeater.R;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     private Context context;
-    List<Location> locations;
+    List<String> locations;
 
-    public MyAdapter(List<Location> locations, Context context) {
+    public MyAdapter(List<String> locations, Context context) {
         this.locations = locations;
         this.context = context;
     }
@@ -31,9 +31,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Location location = locations.get(position);
+        String location = locations.get(position);
 
-        holder.locationTV.setText(location.getName());
+        holder.locationTV.setText(location);
     }
 
     @Override
@@ -53,4 +53,4 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
 
-} */
+}

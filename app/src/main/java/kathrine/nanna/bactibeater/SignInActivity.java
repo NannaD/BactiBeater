@@ -11,6 +11,8 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import Service.BackgroundService;
@@ -22,6 +24,9 @@ public class SignInActivity extends AppCompatActivity {
     private BackgroundService bService;
     private boolean bound;
 
+    //Buttons
+    private Button signInB;
+    private Button exitB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,28 @@ public class SignInActivity extends AppCompatActivity {
 
         setupConnectionToService();
         bindToService();
+
+        //Set up buttons
+        signInB = findViewById(R.id.signInB);
+        exitB = findViewById(R.id.exitB);
+
+        //Button functionality
+        signInB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignInActivity.this, OverviewActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        exitB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                SignInActivity.this.finish();
+                System.exit(0);
+            }
+        });
     }
 
     //Recieving broadcasts

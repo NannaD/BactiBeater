@@ -63,6 +63,7 @@ public class BackgroundService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
+    // This is just a test of sending a broadcast
     private void broadcastTest() {
         Intent broadcastIntent = new Intent();
         broadcastIntent.setAction(BROADCASTTEST);

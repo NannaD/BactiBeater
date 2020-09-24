@@ -91,6 +91,8 @@ public class SignInActivity extends AppCompatActivity {
         };
     }
 
+
+
     //Bind to Background service, learned how to from https://developer.android.com/guide/components/bound-services
     void bindToService() {
         Intent intent = new Intent(this, BackgroundService.class);

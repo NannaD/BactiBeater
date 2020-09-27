@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import RecyclerView.MyAdapter;
@@ -30,6 +31,7 @@ public class ChooseLocationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_choose_location);
 
         //Adding to list to test recyclerview
+        locationItems = new ArrayList<>();
         locationItems.add("Stue 1");
         locationItems.add("Stue 2");
         locationItems.add("Stue 3");

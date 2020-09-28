@@ -82,7 +82,7 @@ public class SignInActivity extends AppCompatActivity {
 
     //Dialog to be showed if the wrong username or password is typed
     public void showAlertDialogEmptyText() {
-
+        //Kilde: https://stackoverflow.com/questions/43513919/android-alert-dialog-with-one-two-and-three-buttons
         // setup the alert builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.message_box_title);
@@ -97,7 +97,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public void showAlertDialogWrongUsernameOrPassword() {
-
+        //Kilde: https://stackoverflow.com/questions/43513919/android-alert-dialog-with-one-two-and-three-buttons
         // setup the alert builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.message_box_title);
@@ -155,3 +155,5 @@ public class SignInActivity extends AppCompatActivity {
         }
     }
 }
+
+

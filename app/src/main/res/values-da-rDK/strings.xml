@@ -16,4 +16,7 @@
     <string name="department_xx">Afdeling XXXXXXXXX</string>
     <string name="show_data_in_percent">Vis data i %</string>
     <string name="show_data_in_hours">Vis data i timer</string>
+    <string name="please_fill_in_both_textviews">Venligst udfyld både brugernavn og password og prøv igen!</string>
+    <string name="message_box_title">Venligst prøv igen</string>
+    <string name="please_fill_in_right_information">Venligst prøv igen med korrekt brugernavn og korrekt password</string>
 </resources>

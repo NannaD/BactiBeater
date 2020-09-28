@@ -1,8 +1,5 @@
 package kathrine.nanna.bactibeater;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -15,14 +12,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import androidx.appcompat.app.AlertDialog;
 import Service.BackgroundService;
 
 public class SignInActivity extends AppCompatActivity {
 
     private static final String BROADCASTTEST = "test";
-    private TextView testTb;
     private BackgroundService bService;
     private boolean bound;
+
+    //TextViews
+    private TextView usernameTB;
+    private TextView passwordTB;
 
     //Buttons
     private Button signInB;
@@ -35,10 +39,12 @@ public class SignInActivity extends AppCompatActivity {
 
         LocalBroadcastManager.getInstance(this).registerReceiver(new SignInActivity.ServiceBroadcastReceiver(), new IntentFilter(BROADCASTTEST));
 
-        testTb = findViewById(R.id.usernameTB);
-
         setupConnectionToService();
         bindToService();
+
+        //Set up textviews
+        usernameTB = findViewById(R.id.usernameTB);
+        passwordTB = findViewById(R.id.passwordTB);
 
         //Set up buttons
         signInB = findViewById(R.id.signInB);
@@ -48,9 +54,19 @@ public class SignInActivity extends AppCompatActivity {
         signInB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
-                Intent intent = new Intent(SignInActivity.this, OverviewActivity.class);
-                startActivity(intent);
+                //for (int i = 0; i <= users.Count; i++){
+                    if(usernameTB.getText().toString().equals("nanna") && passwordTB.getText().toString().equals("banan")){
+                        finish();
+                        Intent intent = new Intent(SignInActivity.this, OverviewActivity.class);
+                        startActivity(intent);
+                    }
+                    else if(usernameTB.getText().toString().equals("") && passwordTB.getText().toString().equals("")){
+                        showAlertDialogEmptyText();
+                    }
+                    else if(!usernameTB.getText().toString().equals("nanna") || !passwordTB.getText().toString().equals("banan")){
+                        showAlertDialogWrongUsernameOrPassword();
+                    }
+                //}
             }
         });
 
@@ -64,11 +80,41 @@ public class SignInActivity extends AppCompatActivity {
         });
     }
 
+    //Dialog to be showed if the wrong username or password is typed
+    public void showAlertDialogEmptyText() {
+
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.message_box_title);
+        builder.setMessage(R.string.please_fill_in_both_textviews);
+
+        // add a button
+        builder.setPositiveButton("OK", null);
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void showAlertDialogWrongUsernameOrPassword() {
+
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.message_box_title);
+        builder.setMessage(R.string.please_fill_in_right_information);
+
+        // add a button
+        builder.setPositiveButton("OK", null);
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
     //Recieving broadcasts
     public class ServiceBroadcastReceiver extends BroadcastReceiver {
         @Override
-        public void onReceive(Context context, Intent intent) {
-            testTb.setText("test");
+        public void onReceive(Context context, Intent intent){
         }
     }
 

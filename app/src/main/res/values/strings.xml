@@ -17,4 +17,8 @@
     <string name="department_xx">Department XXXXXXXXX</string>
     <string name="show_data_in_percent">Show Data In %</string>
     <string name="show_data_in_hours">Show Data In Hours</string>
+    <string name="please_fill_in_both_textviews">Please fill in both username and password and try again!</string>
+    <string name="message_box_title">Please try again</string>
+    <string name="please_fill_in_right_information">Please fill in correct username and correct password and try again!</string>
+
 </resources>

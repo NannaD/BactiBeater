@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class APIUserItem {
 
+    @SerializedName("signInModelId")
+    @Expose
+    private String signInModelId;
     @SerializedName("username")
     @Expose
     private String username;
@@ -14,6 +17,14 @@ public class APIUserItem {
     @SerializedName("canAddUserBool")
     @Expose
     private boolean canAddUserBool;
+
+    public String getSignInModelId() {
+        return signInModelId;
+    }
+
+    public void setSignInModelId(String signInModelId) {
+        this.signInModelId = signInModelId;
+    }
 
     public String getUsername() {
         return username;

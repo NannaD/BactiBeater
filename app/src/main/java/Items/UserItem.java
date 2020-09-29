@@ -4,14 +4,24 @@ import java.io.Serializable;
 
 public class UserItem implements Serializable {
 
+    private String signInModelId;
     private String username;
     private String password;
     private boolean canAddUserBool;
 
-    public UserItem(String username, String password, boolean canAddUserBool) {
+    public UserItem(String signInModelId, String username, String password, boolean canAddUserBool) {
+        this.signInModelId = signInModelId;
         this.username = username;
         this.password = password;
         this.canAddUserBool = canAddUserBool;
+    }
+
+    public String getSignInModelId() {
+        return signInModelId;
+    }
+
+    public void setSignInModelId(String signInModelId) {
+        this.signInModelId = signInModelId;
     }
 
     public String getUsername() {

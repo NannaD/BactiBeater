@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class UserItem implements Serializable {
 
-    private String nono;
     private String username;
     private String password;
     private boolean canAddUserBool;

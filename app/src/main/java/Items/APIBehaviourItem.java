@@ -21,7 +21,7 @@ public class APIBehaviourItem {
     private Date beaconInteractionTime;
     @SerializedName("beaconName")
     @Expose
-    private String roomName;
+    private String beaconName;
     @SerializedName("didSanitizeBool")
     @Expose
     private boolean didSanitizeBool;
@@ -58,12 +58,12 @@ public class APIBehaviourItem {
         this.beaconInteractionTime = beaconInteractionTime;
     }
 
-    public String getRoomName() {
-        return roomName;
+    public String getBeaconName() {
+        return beaconName;
     }
 
     public void setRoomName(String roomName) {
-        this.roomName = roomName;
+        this.beaconName = roomName;
     }
 
     public boolean isDidSanitizeBool() {

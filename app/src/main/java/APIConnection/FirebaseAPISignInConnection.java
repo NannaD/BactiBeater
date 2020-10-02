@@ -28,12 +28,12 @@ import Items.APIUserItem;
 import Items.BehaviourItem;
 import Items.UserItem;
 
-public class FirebaseAPISignInConnection extends AppCompatActivity{
+/*public class FirebaseAPISignInConnection extends AppCompatActivity{
     String LOG = "FIREBASE_API_BEHAVIOR_ITEM";
 
     RequestQueue mQueue;
     Context context;
-    String urlAPISignIn = "https://localhost:44388/api/BehaviourModels";
+    String urlAPISignIn = "https://localhost:44388/api/SignInModels";
 
     //interface used in the service
     public interface VolleyResponseListener{
@@ -92,4 +92,4 @@ public class FirebaseAPISignInConnection extends AppCompatActivity{
         mQueue.add(jsonRequest);
     }
 
-}
+}*/

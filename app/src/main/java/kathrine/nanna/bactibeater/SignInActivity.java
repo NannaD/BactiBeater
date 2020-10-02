@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import androidx.appcompat.app.AlertDialog;
+
+import APIConnection.FirebaseAPIBehaviourConnection;
 import Service.BackgroundService;
 
 public class SignInActivity extends AppCompatActivity {
@@ -127,6 +129,7 @@ public class SignInActivity extends AppCompatActivity {
                 // We've bound to LocalService, cast the IBinder and get LocalService instance
                 bService = ((BackgroundService.LocalBinder)service).getService();
                 bound = true;
+                bService.APITest();
             }
 
             @Override

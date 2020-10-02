@@ -37,9 +37,13 @@ import java.util.TimerTask;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import APIConnection.FirebaseAPIBehaviourConnection;
+import Items.BehaviourItem;
+
 public class BackgroundService extends Service {
     private static final String LOG = "MyBackgroundService";
     private static final String BROADCASTTEST = "test";
+    private FirebaseAPIBehaviourConnection firebaseAPIBehaviourConnection;
 
     public class LocalBinder extends Binder {
         public BackgroundService getService() {
@@ -60,6 +64,8 @@ public class BackgroundService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(LOG, "Service running");
         broadcastTest();
+
+
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -71,4 +77,19 @@ public class BackgroundService extends Service {
         LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
     }
 
+    public void APITest(){
+        firebaseAPIBehaviourConnection = new FirebaseAPIBehaviourConnection(BackgroundService.this);
+
+        firebaseAPIBehaviourConnection.sendRequest(new FirebaseAPIBehaviourConnection.VolleyResponseListener() {
+            @Override
+            public void onError(String message) {
+
+            }
+
+            @Override
+            public void onResponse(BehaviourItem response) {
+
+            }
+        });
+    }
 }

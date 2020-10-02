@@ -20,7 +20,10 @@ import com.google.gson.GsonBuilder;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import Items.APIBehaviourItem;
@@ -28,11 +31,10 @@ import Items.BehaviourItem;
 
 public class FirebaseAPIBehaviourConnection extends AppCompatActivity {
 
-    String LOG = "FIREBASE_API_BEHAVIOR_ITEM";
-
-    RequestQueue mQueue;
-    Context context;
-    String urlAPIBehaviour = "https://localhost:44388/api/BehaviourModels";
+    private String LOG = "FIREBASE_API_BEHAVIOR_ITEM";
+    private RequestQueue mQueue;
+    private String urlAPIBehaviour = "http://bactibeater.azurewebsites.net/api/BehaviourModels";
+    private Context context;
 
     //interface used in the service
     public interface VolleyResponseListener{
@@ -47,37 +49,40 @@ public class FirebaseAPIBehaviourConnection extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     //Sending request and getting the behaviouritem
-    public void sendRequest(final String behaviourModelId, final VolleyResponseListener listener)
+    public void sendRequest(final VolleyResponseListener listener)
     {
         if (mQueue == null) {
             mQueue = Volley.newRequestQueue(context);
         }
 
-        final String url = urlAPIBehaviour+behaviourModelId; //OPMÆRKSOM PÅ HVORDAN DET SKAL HENTES
-
-        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, urlAPIBehaviour, null, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(JSONObject responses) {
                 Gson gson = new GsonBuilder().create();
-                APIBehaviourItem wordAPIItem =  gson.fromJson(response.toString(), APIBehaviourItem.class);
+                List<APIBehaviourItem> wordAPIItems = (List<APIBehaviourItem>) gson.fromJson(responses.toString(), APIBehaviourItem.class);
+                List<BehaviourItem> behaviourItems = new ArrayList<>();
 
-                BehaviourItem behaviourItem = new BehaviourItem();
-                //animalItem.setName(wordAPIItem.getWord());
-                //animalItem.setPronounce(wordAPIItem.getPronunciation());
-                //animalItem.setWordRating("1");
-                //animalItem.setDescription(wordAPIItem.getDefinitions().get(0).getDefinition());
-                //animalItem.setPictureURL(wordAPIItem.getDefinitions().get(0).getImageUrl());
+               for (int i = 0; i < wordAPIItems.size(); i++){
 
-                listener.onResponse(behaviourItem); //HUSK AT VI SKAL LAVE INTERFACE TIL SERVICEN SOM I MIT ANIMALPROJEKT
+                    long behavoiurModelId = wordAPIItems.get(i).getBehaviourModelId();
+                    int bactiBeaterId = wordAPIItems.get(i).getBactiBeaterId();
+                    int beaconId = wordAPIItems.get(i).getBeaconId();
+                    Date beaconInteractionTime = wordAPIItems.get(i).getBeaconInteractionTime();
+                    String beaconName = wordAPIItems.get(i).getBeaconName();
+                    boolean didSanitizeBool = wordAPIItems.get(i).isDidSanitizeBool();
+
+                    BehaviourItem behaviourItem = new BehaviourItem(behavoiurModelId, bactiBeaterId, beaconId, beaconInteractionTime, beaconName, didSanitizeBool);
+                    behaviourItems.add(behaviourItem);
+               }
+               //listener.onResponse();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("WORDAPI", "JsonRequest did not work");
+                Log.e("FirebaseAPI", "JsonRequest did not work");
             }
         })  {
             @Override //VED IKKE MED DETTE

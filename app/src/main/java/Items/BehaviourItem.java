@@ -5,51 +5,51 @@ import java.util.Date;
 
 public class BehaviourItem implements Serializable {
 
-    private long behaviourModelId;
-    private int bactiBeaterId;
-    private int beaconId;
-    private Date beaconInteractionTime;
+    private String behaviourModelId;
+    private String bactiBeaterId;
+    private String beaconId;
+    private String beaconInteractionTime;
     private String beaconName;
-    private boolean didSanitizeBool;
+    private boolean didSanitize;
 
-    public BehaviourItem(long behaviourModelId, int bactiBeaterId, int beaconId, Date beaconInteractionTime, String beaconName, boolean didSanitizeBool) {
+    public BehaviourItem(String behaviourModelId, String bactiBeaterId, String beaconId, String beaconInteractionTime, String beaconName, boolean didSanitize) {
         this.behaviourModelId = behaviourModelId;
         this.bactiBeaterId = bactiBeaterId;
         this.beaconId = beaconId;
         this.beaconInteractionTime = beaconInteractionTime;
         this.beaconName = beaconName;
-        this.didSanitizeBool = didSanitizeBool;
+        this.didSanitize = didSanitize;
     }
 
-    public long getBehaviourModelId() {
+    public String getBehaviourModelId() {
         return behaviourModelId;
     }
 
-    public void setBehaviourModelId(long behaviourModelId) {
+    public void setBehaviourModelId(String behaviourModelId) {
         this.behaviourModelId = behaviourModelId;
     }
 
-    public int getBactiBeaterId() {
+    public String getBactiBeaterId() {
         return bactiBeaterId;
     }
 
-    public void setBactiBeaterId(int bactiBeaterId) {
+    public void setBactiBeaterId(String bactiBeaterId) {
         this.bactiBeaterId = bactiBeaterId;
     }
 
-    public int getBeaconId() {
+    public String getBeaconId() {
         return beaconId;
     }
 
-    public void setBeaconId(int beaconId) {
+    public void setBeaconId(String beaconId) {
         this.beaconId = beaconId;
     }
 
-    public Date getBeaconInteractionTime() {
+    public String getBeaconInteractionTime() {
         return beaconInteractionTime;
     }
 
-    public void setBeaconInteractionTime(Date beaconInteractionTime) {
+    public void setBeaconInteractionTime(String beaconInteractionTime) {
         this.beaconInteractionTime = beaconInteractionTime;
     }
 
@@ -61,11 +61,11 @@ public class BehaviourItem implements Serializable {
         this.beaconName = roomName;
     }
 
-    public boolean isDidSanitizeBool() {
-        return didSanitizeBool;
+    public boolean isDidSanitize() {
+        return didSanitize;
     }
 
-    public void setDidSanitizeBool(boolean didSanitizeBool) {
-        this.didSanitizeBool = didSanitizeBool;
+    public void setDidSanitize(boolean didSanitize) {
+        this.didSanitize = didSanitize;
     }
 }

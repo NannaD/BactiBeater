@@ -124,6 +124,7 @@ public class SignInActivity extends AppCompatActivity {
     private ServiceConnection connection;
     private void setupConnectionToService() {
         connection = new ServiceConnection() {
+
             @Override
             public void onServiceConnected(ComponentName className, IBinder service) {
                 // We've bound to LocalService, cast the IBinder and get LocalService instance

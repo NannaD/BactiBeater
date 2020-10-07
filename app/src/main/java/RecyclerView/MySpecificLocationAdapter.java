@@ -14,7 +14,7 @@ import java.util.List;
 import Items.SpecificLocationSanitizeItem;
 import kathrine.nanna.bactibeater.R;
 
-public class MySpecificLocationAdapter extends RecyclerView.Adapter<MySpecificLocationAdapter.MyViewHolder> {
+public class MySpecificLocationAdapter extends RecyclerView.Adapter<MySpecificLocationAdapter.ViewHolder> {
 
     private List<SpecificLocationSanitizeItem> specificLocationSanitizeItems;
     private Context context;
@@ -25,13 +25,13 @@ public class MySpecificLocationAdapter extends RecyclerView.Adapter<MySpecificLo
     }
 
     @Override
-    public MySpecificLocationAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MySpecificLocationAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.locationitem, parent, false);
-        return new MySpecificLocationAdapter.MyViewHolder(v);
+        return new MySpecificLocationAdapter.ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(MySpecificLocationAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(MySpecificLocationAdapter.ViewHolder holder, int position) {
         SpecificLocationSanitizeItem specificLocationSanitizeItem = specificLocationSanitizeItems.get(position);
 
         holder.dateTV.setText(specificLocationSanitizeItem.getDate());
@@ -45,7 +45,7 @@ public class MySpecificLocationAdapter extends RecyclerView.Adapter<MySpecificLo
         return specificLocationSanitizeItems.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView dateTV;
         public TextView procentageTV;
@@ -53,7 +53,7 @@ public class MySpecificLocationAdapter extends RecyclerView.Adapter<MySpecificLo
         public TextView sanitizeTV;
 
 
-        public MyViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             dateTV = itemView.findViewById(R.id.dateTV);

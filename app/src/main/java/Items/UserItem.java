@@ -7,13 +7,13 @@ public class UserItem implements Serializable {
     private String signInModelId;
     private String username;
     private String password;
-    private boolean canAddUserBool;
+    private boolean canAddUser;
 
     public UserItem(String signInModelId, String username, String password, boolean canAddUserBool) {
         this.signInModelId = signInModelId;
         this.username = username;
         this.password = password;
-        this.canAddUserBool = canAddUserBool;
+        this.canAddUser = canAddUserBool;
     }
 
     public String getSignInModelId() {
@@ -41,10 +41,10 @@ public class UserItem implements Serializable {
     }
 
     public boolean isCanAddUserBool() {
-        return canAddUserBool;
+        return canAddUser;
     }
 
     public void setCanAddUserBool(boolean canAddUserBool) {
-        this.canAddUserBool = canAddUserBool;
+        this.canAddUser = canAddUserBool;
     }
 }

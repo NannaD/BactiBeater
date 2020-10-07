@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,7 @@ public class ChooseLocationActivity extends AppCompatActivity {
 
     //Buttons
     private Button exitB;
+    private Button videreB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class ChooseLocationActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         exitB = findViewById(R.id.exitB);
+        videreB = findViewById(R.id.videreB);
 
         //testing recyclerview
         testRecyclerView();
@@ -53,6 +56,14 @@ public class ChooseLocationActivity extends AppCompatActivity {
                 finish();
                 ChooseLocationActivity.this.finish();
                 System.exit(0);
+            }
+        });
+        videreB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                Intent intent = new Intent(ChooseLocationActivity.this, SpecificLocationActivity.class);
+                startActivity(intent);
             }
         });
     }

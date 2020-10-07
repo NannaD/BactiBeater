@@ -22,9 +22,9 @@ public class APIBehaviourItem {
     @SerializedName("beaconName")
     @Expose
     private String beaconName;
-    @SerializedName("didSanitizeBool")
+    @SerializedName("didSanitize")
     @Expose
-    private boolean didSanitizeBool;
+    private boolean didSanitize;
 
     public long getBehaviourModelId() {
         return behaviourModelId;
@@ -62,15 +62,15 @@ public class APIBehaviourItem {
         return beaconName;
     }
 
-    public void setRoomName(String roomName) {
+    public void setBeaconName(String roomName) {
         this.beaconName = roomName;
     }
 
-    public boolean isDidSanitizeBool() {
-        return didSanitizeBool;
+    public boolean getDidSanitize() {
+        return didSanitize;
     }
 
-    public void setDidSanitizeBool(boolean didSanitizeBool) {
-        this.didSanitizeBool = didSanitizeBool;
+    public void setDidSanitize(boolean didSanitizeBool) {
+        this.didSanitize = didSanitizeBool;
     }
 }

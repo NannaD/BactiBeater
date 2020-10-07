@@ -28,13 +28,18 @@
         android:id="@+id/specificLocationTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:fontFamily="sans-serif-medium"
         android:includeFontPadding="false"
         android:text="@string/department_xx"
         android:textColor="#3E0B0A0A"
         android:textSize="30sp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="144dp" />
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.222"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dataOnSanitizingAtTV"
+        app:layout_constraintVertical_bias="0.043" />
 
     <Button
         android:id="@+id/goBackB"
@@ -66,25 +71,15 @@
         app:layout_constraintHorizontal_bias="0.65"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <RadioGroup
-        android:layout_width="225dp"
-        android:layout_height="62dp"
-        tools:layout_editor_absoluteX="18dp"
-        tools:layout_editor_absoluteY="208dp">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/specificSanitizeDataRV"
+        android:layout_width="375dp"
+        android:layout_height="429dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.685" />
 
-        <RadioButton
-            android:id="@+id/procentRB"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/show_data_in_percent"
-            android:textColor="#ED545151" />
-
-        <RadioButton
-            android:id="@+id/radioButton2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/show_data_in_hours"
-            android:textColor="#ED545151" />
-    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

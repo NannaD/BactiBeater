@@ -14,9 +14,9 @@ public class APIUserItem {
     @SerializedName("password")
     @Expose
     private String password;
-    @SerializedName("canAddUserBool")
+    @SerializedName("canAddUser")
     @Expose
-    private boolean canAddUserBool;
+    private boolean canAddUser;
 
     public String getSignInModelId() {
         return signInModelId;
@@ -42,11 +42,11 @@ public class APIUserItem {
         this.password = password;
     }
 
-    public boolean isCanAddUserBool() {
-        return canAddUserBool;
+    public boolean getCanAddUser() {
+        return canAddUser;
     }
 
-    public void setCanAddUserBool(boolean canAddUserBool) {
-        this.canAddUserBool = canAddUserBool;
+    public void setCanAddUser(boolean canAddUser) {
+        this.canAddUser = canAddUser;
     }
 }

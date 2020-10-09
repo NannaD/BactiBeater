@@ -71,7 +71,5 @@ public class BackgroundService extends Service {
         firebaseAPIBehaviourConnection.password = password;
 
         firebaseAPIBehaviourConnection.isSignedIn(callback);
-
-
     }
 }

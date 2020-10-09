@@ -1,49 +1,24 @@
 package Service;
 
-import android.Manifest;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Binder;
-import android.os.Build;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import APIConnection.Callback;
 import APIConnection.FirebaseAPIBehaviourConnection;
+import APIConnection.FirebaseAPISignInConnection;
 import Items.BehaviourItem;
+import Items.UserItem;
 
 public class BackgroundService extends Service {
     private static final String LOG = "MyBackgroundService";
     private static final String BROADCASTTEST = "test";
-    private FirebaseAPIBehaviourConnection firebaseAPIBehaviourConnection;
+    private FirebaseAPIBehaviourConnection firebaseAPIBehaviourConnection = new FirebaseAPIBehaviourConnection(BackgroundService.this);
+
 
     public class LocalBinder extends Binder {
         public BackgroundService getService() {
@@ -55,8 +30,7 @@ public class BackgroundService extends Service {
 
 
     @Override
-    public IBinder onBind(Intent intent)
-    {
+    public IBinder onBind(Intent intent) {
         return binder;
     }
 
@@ -77,10 +51,9 @@ public class BackgroundService extends Service {
         LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
     }
 
-    public void APITest(){
-        firebaseAPIBehaviourConnection = new FirebaseAPIBehaviourConnection(BackgroundService.this);
+    public void APITest() {
 
-        firebaseAPIBehaviourConnection.sendRequest(new FirebaseAPIBehaviourConnection.VolleyResponseListener() {
+        firebaseAPIBehaviourConnection.getBehaviours(new FirebaseAPIBehaviourConnection.VolleyResponseListener() {
             @Override
             public void onError(String message) {
 
@@ -91,5 +64,14 @@ public class BackgroundService extends Service {
 
             }
         });
+    }
+
+    public void SignIn(String userName, String password, Callback callback) {
+        firebaseAPIBehaviourConnection.userName = userName;
+        firebaseAPIBehaviourConnection.password = password;
+
+        firebaseAPIBehaviourConnection.isSignedIn(callback);
+
+
     }
 }

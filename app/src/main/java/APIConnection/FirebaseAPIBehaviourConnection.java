@@ -3,6 +3,7 @@ package APIConnection;
 import android.content.Context;
 
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -14,6 +15,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -34,7 +37,11 @@ public class FirebaseAPIBehaviourConnection extends AppCompatActivity {
     private String LOG = "FIREBASE_API_BEHAVIOR_ITEM";
     private RequestQueue mQueue;
     private String urlAPIBehaviour = "https://bactibeater.azurewebsites.net/api/BehaviourModels";
+    String urlAPISignIn = "https://bactibeater.azurewebsites.net/api/BehaviourModels/TestSignIn";
+    //private String urlAPIBehaviour = "https://localhost:44388/api/BehaviourModels";
     private Context context;
+    public String userName;
+    public String password;
 
     //interface used in the service
     public interface VolleyResponseListener{
@@ -53,7 +60,7 @@ public class FirebaseAPIBehaviourConnection extends AppCompatActivity {
     }
 
     //Sending request and getting the behaviouritem
-    public void sendRequest(final VolleyResponseListener listener)
+    public void getBehaviours(final VolleyResponseListener listener)
     {
         if (mQueue == null) {
             mQueue = Volley.newRequestQueue(context);
@@ -86,13 +93,13 @@ public class FirebaseAPIBehaviourConnection extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("FirebaseAPI", "JsonRequest did not work");
+                Log.e("FirebaseAPI", "JsonRequest did not work. " + error.getMessage());
             }
         })  {
-            @Override //VED IKKE MED DETTE
+            @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<String, String>();
-                headers.put("Authorization", "Token ");
+                headers.put("Authorization", "Basic "+ Base64.encodeToString((userName + ":" + password).getBytes(), Base64.DEFAULT));
                 return headers;
             }
         };
@@ -100,5 +107,43 @@ public class FirebaseAPIBehaviourConnection extends AppCompatActivity {
         Log.d(LOG, "Request sent");
         mQueue.add(jsonRequest);
     }
+
+    public void isSignedIn(final Callback callback)
+    {
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(context);
+        }
+        final StringRequest stringRequest = new StringRequest(Request.Method.GET, urlAPISignIn, new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response) {
+                try {
+                    if (Boolean.parseBoolean(response) == true)
+                    {
+                        callback.onSuccess(response);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("FirebaseAPI", "JsonRequest did not work. " + error.getMessage());
+            }
+        })  {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "Basic "+ Base64.encodeToString((userName + ":" + password).getBytes(), Base64.DEFAULT));
+                return headers;
+            }
+        };
+
+        Log.d(LOG, "Request sent");
+        mQueue.add(stringRequest);
+    }
+
 
 }

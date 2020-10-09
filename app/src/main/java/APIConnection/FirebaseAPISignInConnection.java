@@ -3,6 +3,7 @@ package APIConnection;
 import android.content.Context;
 
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -13,14 +14,19 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import Items.APIBehaviourItem;
@@ -28,12 +34,14 @@ import Items.APIUserItem;
 import Items.BehaviourItem;
 import Items.UserItem;
 
-/*public class FirebaseAPISignInConnection extends AppCompatActivity{
+public class FirebaseAPISignInConnection extends AppCompatActivity{
     String LOG = "FIREBASE_API_BEHAVIOR_ITEM";
 
     RequestQueue mQueue;
     Context context;
-    String urlAPISignIn = "https://localhost:44388/api/SignInModels";
+    String urlAPISignIn = "https://bactibeater.azurewebsites.net/api/BehaviourModels/TestSignIn";
+    public String userName;
+    public String password;
 
     //interface used in the service
     public interface VolleyResponseListener{
@@ -51,39 +59,44 @@ import Items.UserItem;
     }
 
     //Sending request and getting the behaviouritem
-    public void sendRequest(final String signInId, final VolleyResponseListener listener)
+    public void getSignIns(final FirebaseAPIBehaviourConnection.VolleyResponseListener listener)
     {
         if (mQueue == null) {
             mQueue = Volley.newRequestQueue(context);
         }
 
-        final String url = urlAPISignIn+signInId; //OPMÆRKSOM PÅ HVORDAN DET SKAL HENTES
-
-        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, urlAPISignIn, null, new Response.Listener<JSONArray>() {
             @Override
-            public void onResponse(JSONObject response) {
-                Gson gson = new GsonBuilder().create();
-                APIUserItem userApiItem =  gson.fromJson(response.toString(), APIUserItem.class);
+            public void onResponse(JSONArray responses) {
+                List<UserItem> userItems = new ArrayList<>();
 
-                UserItem userItem = new UserItem();
-                //animalItem.setName(wordAPIItem.getWord());
-                //animalItem.setPronounce(wordAPIItem.getPronunciation());
-                //animalItem.setWordRating("1");
-                //animalItem.setDescription(wordAPIItem.getDefinitions().get(0).getDefinition());
-                //animalItem.setPictureURL(wordAPIItem.getDefinitions().get(0).getImageUrl());
+                for (int i = 0; i < responses.length(); i++){
+                    try {
+                        JSONObject user = responses.getJSONObject(i);
+                        String signInModelId = user.getString("signInModelId");
+                        String username = user.getString("username");
+                        String password = user.getString("password");
+                        boolean canAddUser = user.getBoolean("canAddUser");
 
-                listener.onResponse(userItem); //HUSK AT VI SKAL LAVE INTERFACE TIL SERVICEN SOM I MIT ANIMALPROJEKT
+                        UserItem userItem = new UserItem(signInModelId, username, password, canAddUser);
+                        userItems.add(userItem);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                //listener.onResponse();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("WORDAPI", "JsonRequest did not work");
+                Log.e("FirebaseAPI", "JsonRequest did not work. " + error.getMessage());
             }
         })  {
-            @Override //VED IKKE MED DETTE
+            @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<String, String>();
-                headers.put("Authorization", "Token ");
+                headers.put("Authorization", "Basic "+ Base64.encodeToString((userName + ":" + password).getBytes(), Base64.DEFAULT));
                 return headers;
             }
         };
@@ -92,4 +105,4 @@ import Items.UserItem;
         mQueue.add(jsonRequest);
     }
 
-}*/
+}

@@ -17,6 +17,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import androidx.appcompat.app.AlertDialog;
 
+import APIConnection.Callback;
 import APIConnection.FirebaseAPIBehaviourConnection;
 import Service.BackgroundService;
 
@@ -56,8 +57,20 @@ public class SignInActivity extends AppCompatActivity {
         signInB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (usernameTB.getText().length() != 0 && passwordTB.getText().length() != 0)
+                {
+                    bService.SignIn(usernameTB.getText().toString(), passwordTB.getText().toString(), new Callback() {
+                        @Override
+                        public void onSuccess(Object result) {
+                            finish();
+                            Intent intent = new Intent(SignInActivity.this, OverviewActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+                }
+                /*
                 //for (int i = 0; i <= users.Count; i++){
-                    if(usernameTB.getText().toString().equals("nanna") && passwordTB.getText().toString().equals("banan")){
+                    if(usernameTB.getText().toString().equals("nanna") && passwordTB.getText().toString().equals(bService.)){
                         finish();
                         Intent intent = new Intent(SignInActivity.this, OverviewActivity.class);
                         startActivity(intent);
@@ -68,6 +81,7 @@ public class SignInActivity extends AppCompatActivity {
                     else if(!usernameTB.getText().toString().equals("nanna") || !passwordTB.getText().toString().equals("banan")){
                         showAlertDialogWrongUsernameOrPassword();
                     }
+                    */
                 //}
             }
         });
@@ -130,7 +144,6 @@ public class SignInActivity extends AppCompatActivity {
                 // We've bound to LocalService, cast the IBinder and get LocalService instance
                 bService = ((BackgroundService.LocalBinder)service).getService();
                 bound = true;
-                bService.APITest();
             }
 
             @Override
@@ -140,8 +153,6 @@ public class SignInActivity extends AppCompatActivity {
             }
         };
     }
-
-
 
     //Bind to Background service, learned how to from https://developer.android.com/guide/components/bound-services
     void bindToService() {

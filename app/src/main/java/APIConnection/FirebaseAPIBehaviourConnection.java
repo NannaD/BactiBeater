@@ -37,8 +37,7 @@ public class FirebaseAPIBehaviourConnection extends AppCompatActivity {
     private String LOG = "FIREBASE_API_BEHAVIOR_ITEM";
     private RequestQueue mQueue;
     private String urlAPIBehaviour = "https://bactibeater.azurewebsites.net/api/BehaviourModels";
-    String urlAPISignIn = "https://bactibeater.azurewebsites.net/api/BehaviourModels/TestSignIn";
-    //private String urlAPIBehaviour = "https://localhost:44388/api/BehaviourModels";
+    private String urlAPISignIn = "https://bactibeater.azurewebsites.net/api/BehaviourModels/TestSignIn";
     private Context context;
     public String userName;
     public String password;

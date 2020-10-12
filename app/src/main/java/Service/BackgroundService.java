@@ -8,6 +8,9 @@ import android.util.Log;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import APIConnection.Callback;
 import APIConnection.FirebaseAPIBehaviourConnection;
 import APIConnection.FirebaseAPISignInConnection;
@@ -17,6 +20,9 @@ import Items.UserItem;
 public class BackgroundService extends Service {
     private static final String LOG = "MyBackgroundService";
     private static final String BROADCASTTEST = "test";
+
+    private List<Integer> overviewDataList;
+
     private FirebaseAPIBehaviourConnection firebaseAPIBehaviourConnection = new FirebaseAPIBehaviourConnection(BackgroundService.this);
 
 
@@ -51,7 +57,7 @@ public class BackgroundService extends Service {
         LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
     }
 
-    public void APITest() {
+    public void getBehaviourModels() {
 
         firebaseAPIBehaviourConnection.getBehaviours(new FirebaseAPIBehaviourConnection.VolleyResponseListener() {
             @Override
@@ -60,8 +66,40 @@ public class BackgroundService extends Service {
             }
 
             @Override
-            public void onResponse(BehaviourItem response) {
+            public void onResponse(List<BehaviourItem> response) {
+                //MANGLER
+            }
+        });
+    }
 
+    public List<Integer> returnDataForOverview(){
+        getAPIDataForOverview();
+        return overviewDataList;
+    }
+
+    public void getAPIDataForOverview(){
+        firebaseAPIBehaviourConnection.getBehaviours(new FirebaseAPIBehaviourConnection.VolleyResponseListener() {
+            @Override
+            public void onError(String message) {
+
+            }
+
+            @Override
+            public void onResponse(List<BehaviourItem> response) {
+                overviewDataList = new ArrayList<>(); //overvej om denne liste istedet skal være en itemklasse, så man ikke går på indextal men på variabelnavn
+                int visitorsSanitized = 0;
+                int visitorsDidNotSanitize = 0;
+
+                for(int i = 0; i <= response.size(); i++){
+                    if (response.get(i).isDidSanitize() == true){
+                        visitorsSanitized++;
+                    } else if (response.get(i).isDidSanitize() == false){
+                        visitorsDidNotSanitize++;
+                    }
+                }
+
+                overviewDataList.add(visitorsSanitized);
+                overviewDataList.add(visitorsDidNotSanitize);
             }
         });
     }

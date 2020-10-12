@@ -45,7 +45,7 @@ public class FirebaseAPIBehaviourConnection extends AppCompatActivity {
     //interface used in the service
     public interface VolleyResponseListener{
         void onError(String message);
-        void onResponse(BehaviourItem response);
+        void onResponse(List<BehaviourItem> response);
     }
 
     public FirebaseAPIBehaviourConnection(Context context) {
@@ -87,7 +87,7 @@ public class FirebaseAPIBehaviourConnection extends AppCompatActivity {
                        e.printStackTrace();
                    }
                }
-               //listener.onResponse();
+               listener.onResponse(behaviourItems);
             }
         }, new Response.ErrorListener() {
             @Override

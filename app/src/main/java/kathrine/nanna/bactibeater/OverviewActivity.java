@@ -63,12 +63,11 @@ public class OverviewActivity extends AppCompatActivity {
         goBackB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*finish();
+                finish();
                 Intent intent = new Intent(OverviewActivity.this, SignInActivity.class);
                 startActivity(intent);
 
-                 */
-                bService.APITest();
+                //bService.getBehaviourModels(); //Hvad gør denne, hilsen kat? Eller mere, skal den bruges her?
             }
         });
 
@@ -86,8 +85,8 @@ public class OverviewActivity extends AppCompatActivity {
 
     public void updateOverviewPieChart(){
         ArrayList<PieEntry> visitorsSanitationToday = new ArrayList<>();
-        visitorsSanitationToday.add(new PieEntry(33, "Sanitized"));
-        visitorsSanitationToday.add(new PieEntry(44, "Failed to sanitize"));
+        visitorsSanitationToday.add(new PieEntry(bService.returnDataForOverview().get(0), "Sanitized"));
+        visitorsSanitationToday.add(new PieEntry(bService.returnDataForOverview().get(1), "Failed to sanitize"));
 
         PieDataSet pieDataSet = new PieDataSet(visitorsSanitationToday, "Visitors and sanitation");
         pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);

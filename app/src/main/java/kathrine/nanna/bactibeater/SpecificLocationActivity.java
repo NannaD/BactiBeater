@@ -12,10 +12,11 @@ import android.widget.Button;
 import java.util.ArrayList;
 import java.util.List;
 import RecyclerView.MySpecificLocationAdapter;
+import RecyclerView.MyAdapter;
 
 import Items.SpecificLocationSanitizeItem;
 
-public class SpecificLocationActivity extends AppCompatActivity {
+public class SpecificLocationActivity extends AppCompatActivity{
 
     private RecyclerView recyclerView;
     private MySpecificLocationAdapter mySpecificLocationAdapter;
@@ -37,10 +38,10 @@ public class SpecificLocationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_specific_location);
 
         //Adding fictional data to specificlocationsanitizeitem
-        SpecificLocationSanitizeItem item1 = new SpecificLocationSanitizeItem("13/5","78%","155","120");
-        SpecificLocationSanitizeItem item2 = new SpecificLocationSanitizeItem("12/5","89%","170","159");
-        SpecificLocationSanitizeItem item3 = new SpecificLocationSanitizeItem("11/5","69%","189","153");
-        SpecificLocationSanitizeItem item4 = new SpecificLocationSanitizeItem("10/5","12%","135","110");
+        SpecificLocationSanitizeItem item1 = new SpecificLocationSanitizeItem("h","13/5","78%","155","120");
+        SpecificLocationSanitizeItem item2 = new SpecificLocationSanitizeItem("h","12/5","89%","170","159");
+        SpecificLocationSanitizeItem item3 = new SpecificLocationSanitizeItem("h","11/5","69%","189","153");
+        SpecificLocationSanitizeItem item4 = new SpecificLocationSanitizeItem("h","10/5","12%","135","110");
 
         //Adding to list to test recyclerview
         specificLocationSanitizeItems = new ArrayList<>();

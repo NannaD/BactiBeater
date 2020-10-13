@@ -53,11 +53,11 @@ public class BehaviourItem implements Serializable {
         this.beaconInteractionTime = beaconInteractionTime;
     }
 
-    public String getRoomName() {
+    public String getBeaconName() {
         return beaconName;
     }
 
-    public void setRoomName(String roomName) {
+    public void setBeaconName(String roomName) {
         this.beaconName = roomName;
     }
 

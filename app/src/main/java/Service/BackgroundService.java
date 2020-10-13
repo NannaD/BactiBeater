@@ -21,8 +21,9 @@ public class BackgroundService extends Service {
     private static final String LOG = "MyBackgroundService";
     private static final String BROADCASTTEST = "test";
     private static final String OVERVIEWCHARTDATA = "overviewPieData";
+    private static final String LOCATIONS = "locations";
 
-    private List<Integer> overviewDataList;
+    private List<String> locationNames;
     private int visitorsSanitized = 0;
     private int visitorsDidNotSanitize = 0;
 
@@ -64,6 +65,12 @@ public class BackgroundService extends Service {
     private void broadcastOverviewChartData() {
         Intent broadcastIntent = new Intent();
         broadcastIntent.setAction(OVERVIEWCHARTDATA);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
+    }
+
+    private void broadcastLocations() {
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.setAction(LOCATIONS);
         LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
     }
 
@@ -121,5 +128,35 @@ public class BackgroundService extends Service {
         firebaseAPIBehaviourConnection.password = password;
 
         firebaseAPIBehaviourConnection.isSignedIn(callback);
+    }
+
+    public void getAllLocations(){
+        firebaseAPIBehaviourConnection.getBehaviours(new FirebaseAPIBehaviourConnection.VolleyResponseListener() {
+            @Override
+            public void onError(String message) {
+
+            }
+
+            @Override
+            public void onResponse(final List<BehaviourItem> response) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        locationNames = new ArrayList<>();
+                        for(int i = 0; i < response.size(); i++){
+                            String locationName = response.get(i).getBeaconId();
+                            if (locationNames.contains(locationName) == false){
+                                locationNames.add(locationName);
+                            }
+                        }
+                    }
+                }).start();
+                broadcastLocations();
+            }
+        });
+    }
+
+    public List<String> returnAllLocations(){
+        return locationNames;
     }
 }

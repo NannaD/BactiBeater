@@ -20,7 +20,6 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import Service.BackgroundService;
 
@@ -45,6 +44,7 @@ public class OverviewActivity extends AppCompatActivity {
         exitB = findViewById(R.id.exitB);
         goToChooseActivity = findViewById(R.id.specificDataB);
         overviewPieChart = findViewById(R.id.overviewPieChart);
+        bService = new BackgroundService();
 
         //Setup backgroundservice connection
         setupConnectionToService();
@@ -80,7 +80,7 @@ public class OverviewActivity extends AppCompatActivity {
             }
         });
 
-        updateOverviewPieChart();
+        //updateOverviewPieChart();
     }
 
     public void updateOverviewPieChart(){

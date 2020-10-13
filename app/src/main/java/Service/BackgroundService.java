@@ -20,8 +20,11 @@ import Items.UserItem;
 public class BackgroundService extends Service {
     private static final String LOG = "MyBackgroundService";
     private static final String BROADCASTTEST = "test";
+    private static final String OVERVIEWCHARTDATA = "overviewPieData";
 
     private List<Integer> overviewDataList;
+    private int visitorsSanitized = 0;
+    private int visitorsDidNotSanitize = 0;
 
     private FirebaseAPIBehaviourConnection firebaseAPIBehaviourConnection = new FirebaseAPIBehaviourConnection(BackgroundService.this);
 
@@ -57,6 +60,13 @@ public class BackgroundService extends Service {
         LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
     }
 
+    //Broadcasts
+    private void broadcastOverviewChartData() {
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.setAction(OVERVIEWCHARTDATA);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
+    }
+
     public void getBehaviourModels() {
 
         firebaseAPIBehaviourConnection.getBehaviours(new FirebaseAPIBehaviourConnection.VolleyResponseListener() {
@@ -72,9 +82,12 @@ public class BackgroundService extends Service {
         });
     }
 
-    public List<Integer> returnDataForOverview(){
-        getAPIDataForOverview();
-        return overviewDataList;
+    public int returnSanitizedDataForOverview(){
+        return visitorsSanitized;
+    }
+
+    public int returnDidNotSanitizeDataForOverview(){
+        return visitorsDidNotSanitize;
     }
 
     public void getAPIDataForOverview(){
@@ -85,21 +98,20 @@ public class BackgroundService extends Service {
             }
 
             @Override
-            public void onResponse(List<BehaviourItem> response) {
-                overviewDataList = new ArrayList<>(); //overvej om denne liste istedet skal være en itemklasse, så man ikke går på indextal men på variabelnavn
-                int visitorsSanitized = 0;
-                int visitorsDidNotSanitize = 0;
-
-                for(int i = 0; i <= response.size(); i++){
-                    if (response.get(i).isDidSanitize() == true){
-                        visitorsSanitized++;
-                    } else if (response.get(i).isDidSanitize() == false){
-                        visitorsDidNotSanitize++;
+            public void onResponse(final List<BehaviourItem> response) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        for(int i = 0; i < response.size(); i++){
+                            if (response.get(i).isDidSanitize() == true){
+                                visitorsSanitized++;
+                            } else if (response.get(i).isDidSanitize() == false){
+                                visitorsDidNotSanitize++;
+                            }
+                        }
                     }
-                }
-
-                overviewDataList.add(visitorsSanitized);
-                overviewDataList.add(visitorsDidNotSanitize);
+                }).start();
+                broadcastOverviewChartData();
             }
         });
     }

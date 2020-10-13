@@ -1,17 +1,20 @@
 package kathrine.nanna.bactibeater;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -19,7 +22,10 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import Service.BackgroundService;
 
@@ -30,9 +36,12 @@ public class OverviewActivity extends AppCompatActivity {
     private Button exitB;
     private Button goToChooseActivity;
     private PieChart overviewPieChart;
+    private TextView dateTV;
 
     private BackgroundService bService;
     private boolean bound;
+
+    private static final String OVERVIEWCHARTDATA = "overviewPieData";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +53,10 @@ public class OverviewActivity extends AppCompatActivity {
         exitB = findViewById(R.id.exitB);
         goToChooseActivity = findViewById(R.id.specificDataB);
         overviewPieChart = findViewById(R.id.overviewPieChart);
-        bService = new BackgroundService();
+        dateTV = findViewById(R.id.currentDateTV);
 
-        //Setup backgroundservice connection
-        setupConnectionToService();
-        bindToService();
+        //Setting the date in overview activity
+        dateTV.setText(SimpleDateFormat.getDateInstance().format(Calendar.getInstance().getTime()));
 
         //Button functionality for navigation
         goToChooseActivity.setOnClickListener(new View.OnClickListener() {
@@ -79,32 +87,39 @@ public class OverviewActivity extends AppCompatActivity {
                 System.exit(0);
             }
         });
-
-        //updateOverviewPieChart();
     }
 
-    public void updateOverviewPieChart(){
+    //Kilder til piechart:
+    // https://www.youtube.com/watch?v=vhKtbECeazQ&t=798s
+    // https://www.anychart.com/technical-integrations/samples/android-charts/
+    public void updateOverviewPieChart(int didSanitize, int didNotSanitize){
         ArrayList<PieEntry> visitorsSanitationToday = new ArrayList<>();
-        visitorsSanitationToday.add(new PieEntry(bService.returnDataForOverview().get(0), "Sanitized"));
-        visitorsSanitationToday.add(new PieEntry(bService.returnDataForOverview().get(1), "Failed to sanitize"));
+        visitorsSanitationToday.add(new PieEntry(didSanitize, "Sanitized"));
+        visitorsSanitationToday.add(new PieEntry(didNotSanitize, "Failed to sanitize"));
 
-        PieDataSet pieDataSet = new PieDataSet(visitorsSanitationToday, "Visitors and sanitation");
-        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        PieDataSet pieDataSet = new PieDataSet(visitorsSanitationToday, "");
+        pieDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
         pieDataSet.setValueTextColor(Color.BLACK);
         pieDataSet.setValueTextSize(16f);
 
         PieData pieData = new PieData(pieDataSet);
 
-        overviewPieChart.setData(pieData);
+
         overviewPieChart.getDescription().setEnabled(false);
         overviewPieChart.setCenterText("Visitors and sanitation");
-        overviewPieChart.animate();
+        //NinoverviewPieChart.animate();
+
+        overviewPieChart.setData(pieData);
+        overviewPieChart.invalidate();
     }
 
     //Recieving broadcasts
-    public class ServiceBroadcastReceiver extends BroadcastReceiver {
+    public class ChartDataBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent){
+            int didSanitize = bService.returnSanitizedDataForOverview();
+            int didNotSanitize = bService.returnDidNotSanitizeDataForOverview();
+            updateOverviewPieChart(didSanitize, didNotSanitize);
         }
     }
 
@@ -116,8 +131,12 @@ public class OverviewActivity extends AppCompatActivity {
             @Override
             public void onServiceConnected(ComponentName className, IBinder service) {
                 // We've bound to LocalService, cast the IBinder and get LocalService instance
+                bService = new BackgroundService();
+
                 bService = ((BackgroundService.LocalBinder)service).getService();
                 bound = true;
+
+                bService.getAPIDataForOverview();
             }
 
             @Override
@@ -142,5 +161,23 @@ public class OverviewActivity extends AppCompatActivity {
             unbindService(connection);
             bound = false;
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unBindFromService();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        //Setup backgroundservice connection
+        setupConnectionToService();
+        bindToService();
+
+        //Set up broadcastmanagers
+        LocalBroadcastManager.getInstance(this).registerReceiver(new OverviewActivity.ChartDataBroadcastReceiver(), new IntentFilter(OVERVIEWCHARTDATA));
     }
 }

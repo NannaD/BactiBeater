@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="ServiceDescription">MyBackgroundService</string>
+
     <string name="app_name">BactiBeater</string>
     <string name="sign_in">Log Ind</string>
     <string name="username">Brugernavn</string>
     <string name="password">Password</string>
     <string name="exit">Forlad</string>
-    <string name="daily_overview">Dagligt Overbik</string>
-    <string name="current_date">Nuværende Dato:</string>
+    <string name="daily_overview">Dagligt overbik</string>
+    <string name="current_date">Dags dato:</string>
     <string name="choose_specific_location">Vælg Specifik Lokation</string>
     <string name="go_back">Tilbage</string>
     <string name="green_hotspot">Grønt Hotspot:</string>
@@ -19,4 +21,8 @@
     <string name="please_fill_in_both_textviews">Venligst udfyld både brugernavn og password og prøv igen!</string>
     <string name="message_box_title">Venligst prøv igen</string>
     <string name="please_fill_in_right_information">Venligst prøv igen med korrekt brugernavn og korrekt password</string>
+    <string name="date">Dato</string>
+    <string name="procentage">Procent</string>
+    <string name="number_of_visitors">Besøgende</string>
+    <string name="visitors_sanitized">Afspritninger</string>
 </resources>

@@ -40,11 +40,6 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(new SignInActivity.ServiceBroadcastReceiver(), new IntentFilter(BROADCASTTEST));
-
-        setupConnectionToService();
-        bindToService();
-
         //Set up textviews
         usernameTB = findViewById(R.id.usernameTB);
         passwordTB = findViewById(R.id.passwordTB);
@@ -153,6 +148,10 @@ public class SignInActivity extends AppCompatActivity {
             }
         };
     }
+    private void startMyService(){
+        Intent serviceIntent = new Intent(SignInActivity.this, BackgroundService.class);
+        startService(serviceIntent);
+    }
 
     //Bind to Background service, learned how to from https://developer.android.com/guide/components/bound-services
     void bindToService() {
@@ -168,6 +167,23 @@ public class SignInActivity extends AppCompatActivity {
             unbindService(connection);
             bound = false;
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unBindFromService();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        startMyService();
+        setupConnectionToService();
+        bindToService();
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(new SignInActivity.ServiceBroadcastReceiver(), new IntentFilter(BROADCASTTEST));
     }
 }
 

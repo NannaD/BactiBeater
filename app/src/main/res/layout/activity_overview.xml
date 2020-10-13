@@ -55,12 +55,14 @@
     <ImageView
         android:id="@+id/bactibeaterIV"
         android:layout_width="120dp"
-        android:layout_height="109dp"
+        android:layout_height="0dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:layout_marginBottom="92dp"
         android:outlineSpotShadowColor="#FFFFFF"
         android:src="@mipmap/ic_launcher"
+        app:layout_constraintBottom_toTopOf="@+id/overviewPieChart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -100,14 +102,18 @@
         android:layout_height="38dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="76dp"
         android:background="#80CBC4"
         android:shadowColor="#B2DFDB"
         android:text="@string/choose_specific_location"
         android:textAllCaps="false"
         android:textColor="#00796B"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/goBackB"
+        app:layout_constraintHorizontal_bias="0.078"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/redHotspotTV"
+        app:layout_constraintVertical_bias="0.995" />
 
     <Button
         android:id="@+id/goBackB"
@@ -168,12 +174,16 @@
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/redHotspotTV"
         app:layout_constraintTop_toBottomOf="@+id/inputGreenHotspotTV" />
-    
-    <com.github.mikephil.charting.charts.PieChart
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/overviewPieChart"
 
-        />
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/overviewPieChart"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+
+        android:layout_marginBottom="140dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/specificDataB"
+        app:layout_constraintStart_toEndOf="@+id/specificDataB"
+        app:layout_constraintTop_toBottomOf="@+id/bactibeaterIV" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

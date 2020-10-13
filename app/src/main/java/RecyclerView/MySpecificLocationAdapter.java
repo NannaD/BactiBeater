@@ -26,7 +26,7 @@ public class MySpecificLocationAdapter extends RecyclerView.Adapter<MySpecificLo
 
     @Override
     public MySpecificLocationAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.locationitem, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.sanitizespecificlocationitem, parent, false);
         return new MySpecificLocationAdapter.ViewHolder(v);
     }
 
@@ -56,7 +56,7 @@ public class MySpecificLocationAdapter extends RecyclerView.Adapter<MySpecificLo
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            dateTV = itemView.findViewById(R.id.dateTV);
+            dateTV = itemView.findViewById(R.id.dateNowTV);
             procentageTV = itemView.findViewById(R.id.procentageTV);
             visitorsTV = itemView.findViewById(R.id.visitorCountTV);
             sanitizeTV = itemView.findViewById(R.id.sanitizeCountTV);

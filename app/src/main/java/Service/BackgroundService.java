@@ -105,6 +105,28 @@ public class BackgroundService extends Service {
             }
 
             @Override
+            public void onResponse(List<BehaviourItem> response) {
+                for(int i = 0; i < response.size(); i++) {
+                    if (response.get(i).isDidSanitize() == true) {
+                        visitorsSanitized++;
+                    } else if (response.get(i).isDidSanitize() == false) {
+                        visitorsDidNotSanitize++;
+                    }
+                }
+                broadcastOverviewChartData();
+            }
+        });
+    }
+
+    /*
+    public void getAPIDataForOverview(){
+        firebaseAPIBehaviourConnection.getBehaviours(new FirebaseAPIBehaviourConnection.VolleyResponseListener() {
+            @Override
+            public void onError(String message) {
+
+            }
+
+            @Override
             public void onResponse(final List<BehaviourItem> response) {
                 new Thread(new Runnable() {
                     @Override
@@ -119,9 +141,12 @@ public class BackgroundService extends Service {
                     }
                 }).start();
                 broadcastOverviewChartData();
+
             }
         });
     }
+
+     */
 
     public void SignIn(String userName, String password, Callback callback) {
         firebaseAPIBehaviourConnection.userName = userName;

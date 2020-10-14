@@ -143,6 +143,4 @@ public class FirebaseAPIBehaviourConnection extends AppCompatActivity {
         Log.d(LOG, "Request sent");
         mQueue.add(stringRequest);
     }
-
-
 }

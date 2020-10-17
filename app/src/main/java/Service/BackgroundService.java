@@ -135,7 +135,7 @@ public class BackgroundService extends Service {
 
     public List<SpecificLocationSanitizeItem> returnLocationSpecificData(){
 
-
+        locationSpecificSanitizeData = new ArrayList<>(); 
         List<String> dates = new ArrayList<>();
         int visitorCount = 0;
         int sanitizeCount = 0;

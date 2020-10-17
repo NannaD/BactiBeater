@@ -140,6 +140,8 @@ public class BackgroundService extends Service {
         int visitorCount = 0;
         int sanitizeCount = 0;
 
+        SpecificLocationSanitizeItem specificLocationSanitizeItem;
+
         for (int i = 0; i < locationSpecificBehaviourData.size(); i++)
         {
             if (dates.contains(locationSpecificBehaviourData.get(i).getDate()) == false){
@@ -149,6 +151,10 @@ public class BackgroundService extends Service {
 
         for (int i = 0; i < dates.size(); i++){
             for (int j = 0; j < locationSpecificBehaviourData.size(); i++){
+
+                String locationForList = locationSpecificBehaviourData.get(j).getBeaconName();
+                String dateForList = locationSpecificBehaviourData.get(j).getDate();
+
                 if (dates.get(i) == locationSpecificBehaviourData.get(j).getDate())
                 {
                     visitorCount++;
@@ -156,14 +162,13 @@ public class BackgroundService extends Service {
                     if (locationSpecificBehaviourData.get(j).isDidSanitize() == true){
                         sanitizeCount++;
                     }
-
-                    String locationForList = locationSpecificBehaviourData.get(j).getBeaconName();   //skal være andet sted
-                    String dateForList = locationSpecificBehaviourData.get(j).getDate();                                   //Skal være andet sted
                 }
+                specificLocationSanitizeItem  = new SpecificLocationSanitizeItem(locationForList, dateForList, visitorCount, sanitizeCount);
+                locationSpecificSanitizeData.add(specificLocationSanitizeItem);
             }
         }
 
-        return Lssss; 
+        return locationSpecificSanitizeData;
     }
 
 

@@ -78,9 +78,10 @@ public class FirebaseAPIBehaviourConnection extends AppCompatActivity {
                        String beaconId = behaviour.getString("beaconId");
                        String beaconInteractionTime = behaviour.getString("beaconInteractionTime"); //burde være datetime
                        String beaconName = behaviour.getString("beaconName");
+                       String date = behaviour.getString("date");
                        boolean didSanitize = behaviour.getBoolean("didSanitize");
 
-                       BehaviourItem behaviourItem = new BehaviourItem(behaviourModelId, bactiBeaterId, beaconId, beaconInteractionTime, beaconName, didSanitize);
+                       BehaviourItem behaviourItem = new BehaviourItem(behaviourModelId, bactiBeaterId, beaconId, beaconInteractionTime, beaconName, date, didSanitize);
                        behaviourItems.add(behaviourItem);
 
                    } catch (JSONException e) {
@@ -162,9 +163,10 @@ public class FirebaseAPIBehaviourConnection extends AppCompatActivity {
                         String beaconId = behaviour.getString("beaconId");
                         String beaconInteractionTime = behaviour.getString("beaconInteractionTime"); //burde være datetime
                         String beaconName = behaviour.getString("beaconName");
+                        String date = behaviour.getString("date");
                         boolean didSanitize = behaviour.getBoolean("didSanitize");
 
-                        BehaviourItem behaviourItem = new BehaviourItem(behaviourModelId, bactiBeaterId, beaconId, beaconInteractionTime, beaconName, didSanitize);
+                        BehaviourItem behaviourItem = new BehaviourItem(behaviourModelId, bactiBeaterId, beaconId, beaconInteractionTime, beaconName, date, didSanitize);
                         locationAndDateBehaviourItems.add(behaviourItem);
 
                     } catch (JSONException e) {

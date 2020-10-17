@@ -35,7 +35,6 @@ public class MySpecificLocationAdapter extends RecyclerView.Adapter<MySpecificLo
         SpecificLocationSanitizeItem specificLocationSanitizeItem = specificLocationSanitizeItems.get(position);
 
         holder.dateTV.setText(specificLocationSanitizeItem.getDate());
-        holder.procentageTV.setText(specificLocationSanitizeItem.getProcentage());
         holder.visitorsTV.setText(specificLocationSanitizeItem.getVisitorCount());
         holder.sanitizeTV.setText(specificLocationSanitizeItem.getSanitizeCount());
     }

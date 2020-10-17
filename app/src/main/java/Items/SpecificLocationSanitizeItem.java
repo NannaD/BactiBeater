@@ -4,10 +4,10 @@ public class SpecificLocationSanitizeItem {
 
     private String location;
     private String date;
-    private String visitorCount;
-    private String sanitizeCount;
+    private int visitorCount;
+    private int sanitizeCount;
 
-    public SpecificLocationSanitizeItem(String location, String date, String visitorCount, String sanitizeCount) {
+    public SpecificLocationSanitizeItem(String location, String date, int visitorCount, int sanitizeCount) {
         this.location = location;
         this.date = date;
         this.visitorCount = visitorCount;
@@ -30,19 +30,19 @@ public class SpecificLocationSanitizeItem {
         this.date = date;
     }
 
-    public String getVisitorCount() {
+    public int getVisitorCount() {
         return visitorCount;
     }
 
-    public void setVisitorCount(String visitorCount) {
+    public void setVisitorCount(int visitorCount) {
         this.visitorCount = visitorCount;
     }
 
-    public String getSanitizeCount() {
+    public int getSanitizeCount() {
         return sanitizeCount;
     }
 
-    public void setSanitizeCount(String sanitizeCount) {
+    public void setSanitizeCount(int sanitizeCount) {
         this.sanitizeCount = sanitizeCount;
     }
 }

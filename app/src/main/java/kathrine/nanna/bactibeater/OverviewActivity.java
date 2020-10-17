@@ -136,7 +136,7 @@ public class OverviewActivity extends AppCompatActivity {
                 bService = ((BackgroundService.LocalBinder)service).getService();
                 bound = true;
 
-                bService.getAPIDataForOverview();
+                bService.getAPIData();
             }
 
             @Override

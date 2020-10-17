@@ -3,6 +3,7 @@
 
     <string name="app_name">BactiBeater</string>
     <string name="sign_in">Sign In</string>
+    <string name="sign_out">Sign Out</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="exit">Exit</string>

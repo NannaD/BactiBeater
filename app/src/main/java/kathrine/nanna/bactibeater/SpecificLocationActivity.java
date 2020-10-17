@@ -1,11 +1,18 @@
 package kathrine.nanna.bactibeater;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.View;
 import android.widget.Button;
 
@@ -15,15 +22,19 @@ import RecyclerView.MySpecificLocationAdapter;
 import RecyclerView.MyAdapter;
 
 import Items.SpecificLocationSanitizeItem;
+import Service.BackgroundService;
 
 public class SpecificLocationActivity extends AppCompatActivity{
 
     private RecyclerView recyclerView;
     private MySpecificLocationAdapter mySpecificLocationAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    private BackgroundService bService;
+    private boolean bound;
+    private static final String LOCATIONNAME = "locationName";
 
     //TextViews, Lists, etc.
-    private List<SpecificLocationSanitizeItem> specificLocationSanitizeItems;
+    private List<SpecificLocationSanitizeItem> specificLocationItems;
 
     //Buttons
     private Button goBackB;
@@ -37,26 +48,10 @@ public class SpecificLocationActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specific_location);
 
-        //Adding fictional data to specificlocationsanitizeitem
-        SpecificLocationSanitizeItem item1 = new SpecificLocationSanitizeItem("h","13/5","78%","155","120");
-        SpecificLocationSanitizeItem item2 = new SpecificLocationSanitizeItem("h","12/5","89%","170","159");
-        SpecificLocationSanitizeItem item3 = new SpecificLocationSanitizeItem("h","11/5","69%","189","153");
-        SpecificLocationSanitizeItem item4 = new SpecificLocationSanitizeItem("h","10/5","12%","135","110");
-
-        //Adding to list to test recyclerview
-        specificLocationSanitizeItems = new ArrayList<>();
-        specificLocationSanitizeItems.add(item1);
-        specificLocationSanitizeItems.add(item2);
-        specificLocationSanitizeItems.add(item3);
-        specificLocationSanitizeItems.add(item4);
-
         //UI and widgets
         recyclerView = findViewById(R.id.specificSanitizeDataRV);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
-        //testing recyclerview
-        testRecyclerView();
 
         //UI's and widges setup
         goBackB = findViewById(R.id.goBackB);
@@ -83,9 +78,74 @@ public class SpecificLocationActivity extends AppCompatActivity{
 
     }
 
-    private void testRecyclerView() {
-        mySpecificLocationAdapter = new MySpecificLocationAdapter(specificLocationSanitizeItems, SpecificLocationActivity.this);
-        recyclerView.setAdapter(mySpecificLocationAdapter);
-        mySpecificLocationAdapter.notifyDataSetChanged();
+    //Recieving broadcasts
+    public class LocationsBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent){
+            specificLocationItems = bService.returnLocationSpecificData();
+            mySpecificLocationAdapter.updateRecyclerview(specificLocationItems);
+            mySpecificLocationAdapter.notifyDataSetChanged();
+        }
     }
+
+    //Setting up connection to service
+    private ServiceConnection connection;
+    private void setupConnectionToService() {
+        connection = new ServiceConnection() {
+
+            @Override
+            public void onServiceConnected(ComponentName className, IBinder service) {
+                // We've bound to LocalService, cast the IBinder and get LocalService instance
+                bService = ((BackgroundService.LocalBinder)service).getService();
+                bound = true;
+
+                Intent intent = getIntent();
+                String locationName = intent.getStringExtra(LOCATIONNAME);
+
+                bService.getLocationAndDateSpecificData(locationName);
+
+                mySpecificLocationAdapter = new MySpecificLocationAdapter(specificLocationItems, SpecificLocationActivity.this);
+                recyclerView.setAdapter(mySpecificLocationAdapter);
+                mySpecificLocationAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName arg0) {
+                bService = null;
+                bound = false;
+            }
+        };
+    }
+
+    //Bind to Background service, learned how to from https://developer.android.com/guide/components/bound-services
+    void bindToService() {
+        Intent intent = new Intent(this, BackgroundService.class);
+        startService(intent);
+        bindService(intent, connection, Context.BIND_AUTO_CREATE);
+        bound = true;
+    }
+
+    void unBindFromService() {
+        if (bound) {
+            // Detach our existing connection.
+            unbindService(connection);
+            bound = false;
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unBindFromService();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        setupConnectionToService();
+        bindToService();
+    }
+
+
 }

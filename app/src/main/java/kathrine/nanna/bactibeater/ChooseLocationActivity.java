@@ -29,7 +29,7 @@ public class ChooseLocationActivity extends AppCompatActivity implements MyAdapt
     private RecyclerView.LayoutManager layoutManager;
 
     //TextViews, Lists, etc.
-    private List<String> locationItems;
+    private List<String> locationNames;
     private BackgroundService bService;
     private boolean bound;
 
@@ -46,7 +46,7 @@ public class ChooseLocationActivity extends AppCompatActivity implements MyAdapt
         setContentView(R.layout.activity_choose_location);
 
         //Adding to list to test recyclerview
-        locationItems = new ArrayList<>();
+        locationNames = new ArrayList<>();
         //locationItems.add("Stue 1");
         //locationItems.add("Stue 2");
         //locationItems.add("Stue 3");
@@ -71,24 +71,23 @@ public class ChooseLocationActivity extends AppCompatActivity implements MyAdapt
 
     @Override
     public void onLocationClickListener(int position) {
-        String locationNavigation = locationItems.get(position);
-        //intent.putExtra(LOCATIONNAME, locationNavigation);
+        String locationNavigation = locationNames.get(position);
 
         finish();
         Intent intent = new Intent(ChooseLocationActivity.this, SpecificLocationActivity.class);
+        intent.putExtra(LOCATIONNAME, locationNavigation);
         startActivity(intent);
     }
 
     //Recieving broadcasts
-    public class LocationsBroadcastReceiver extends BroadcastReceiver {
+    /*public class LocationsBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent){
             locationItems = bService.returnAllLocations();
-
-            recyclerView.setAdapter(myAdapter);
+            myAdapter.updateRecyclerview(locationItems);
             myAdapter.notifyDataSetChanged();
         }
-    }
+    }*/
 
     //Setting up connection to service
     private ServiceConnection connection;
@@ -101,8 +100,15 @@ public class ChooseLocationActivity extends AppCompatActivity implements MyAdapt
                 bService = ((BackgroundService.LocalBinder)service).getService();
                 bound = true;
 
-                bService.getAllLocations();
+                locationNames = bService.returnAllLocations();
+                myAdapter = new MyAdapter(locationNames, ChooseLocationActivity.this, ChooseLocationActivity.this);
+                myAdapter.updateRecyclerview(locationNames);
+                myAdapter.notifyDataSetChanged();
+
+                /*bService.getAllLocations();
                 myAdapter = new MyAdapter(locationItems, ChooseLocationActivity.this, ChooseLocationActivity.this);
+                recyclerView.setAdapter(myAdapter);
+                myAdapter.notifyDataSetChanged();*/
             }
 
             @Override
@@ -142,6 +148,6 @@ public class ChooseLocationActivity extends AppCompatActivity implements MyAdapt
         setupConnectionToService();
         bindToService();
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(new ChooseLocationActivity.LocationsBroadcastReceiver(), new IntentFilter(LOCATIONS));
+        //LocalBroadcastManager.getInstance(this).registerReceiver(new ChooseLocationActivity.LocationsBroadcastReceiver(), new IntentFilter(LOCATIONS));
     }
 }

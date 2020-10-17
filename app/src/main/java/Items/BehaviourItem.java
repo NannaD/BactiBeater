@@ -10,14 +10,16 @@ public class BehaviourItem implements Serializable {
     private String beaconId;
     private String beaconInteractionTime;
     private String beaconName;
+    private String date;
     private boolean didSanitize;
 
-    public BehaviourItem(String behaviourModelId, String bactiBeaterId, String beaconId, String beaconInteractionTime, String beaconName, boolean didSanitize) {
+    public BehaviourItem(String behaviourModelId, String bactiBeaterId, String beaconId, String beaconInteractionTime, String beaconName, String date, boolean didSanitize) {
         this.behaviourModelId = behaviourModelId;
         this.bactiBeaterId = bactiBeaterId;
         this.beaconId = beaconId;
         this.beaconInteractionTime = beaconInteractionTime;
         this.beaconName = beaconName;
+        this.date = date;
         this.didSanitize = didSanitize;
     }
 
@@ -59,6 +61,14 @@ public class BehaviourItem implements Serializable {
 
     public void setBeaconName(String roomName) {
         this.beaconName = roomName;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public boolean isDidSanitize() {

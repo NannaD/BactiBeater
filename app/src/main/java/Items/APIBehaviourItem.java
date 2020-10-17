@@ -22,6 +22,9 @@ public class APIBehaviourItem {
     @SerializedName("beaconName")
     @Expose
     private String beaconName;
+    @SerializedName("date")
+    @Expose
+    private String date;
     @SerializedName("didSanitize")
     @Expose
     private boolean didSanitize;
@@ -64,6 +67,14 @@ public class APIBehaviourItem {
 
     public void setBeaconName(String roomName) {
         this.beaconName = roomName;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public boolean getDidSanitize() {

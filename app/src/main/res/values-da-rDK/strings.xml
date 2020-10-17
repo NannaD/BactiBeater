@@ -4,6 +4,7 @@
 
     <string name="app_name">BactiBeater</string>
     <string name="sign_in">Log Ind</string>
+    <string name="sign_out">Log Ud</string>
     <string name="username">Brugernavn</string>
     <string name="password">Password</string>
     <string name="exit">Forlad</string>

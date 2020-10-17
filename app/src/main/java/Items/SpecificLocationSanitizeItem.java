@@ -4,14 +4,12 @@ public class SpecificLocationSanitizeItem {
 
     private String location;
     private String date;
-    private String procentage;
     private String visitorCount;
     private String sanitizeCount;
 
-    public SpecificLocationSanitizeItem(String location, String date, String procentage, String visitorCount, String sanitizeCount) {
+    public SpecificLocationSanitizeItem(String location, String date, String visitorCount, String sanitizeCount) {
         this.location = location;
         this.date = date;
-        this.procentage = procentage;
         this.visitorCount = visitorCount;
         this.sanitizeCount = sanitizeCount;
     }
@@ -30,14 +28,6 @@ public class SpecificLocationSanitizeItem {
 
     public void setDate(String date) {
         this.date = date;
-    }
-
-    public String getProcentage() {
-        return procentage;
-    }
-
-    public void setProcentage(String procentage) {
-        this.procentage = procentage;
     }
 
     public String getVisitorCount() {

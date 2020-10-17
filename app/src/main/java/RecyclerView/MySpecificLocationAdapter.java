@@ -62,4 +62,11 @@ public class MySpecificLocationAdapter extends RecyclerView.Adapter<MySpecificLo
             sanitizeTV = itemView.findViewById(R.id.sanitizeCountTV);
         }
     }
+
+    public void updateRecyclerview(List<SpecificLocationSanitizeItem> specificLocationSanitizeItems)
+    {
+        specificLocationSanitizeItems.clear();
+        specificLocationSanitizeItems.addAll(specificLocationSanitizeItems);
+        notifyDataSetChanged();
+    }
 }

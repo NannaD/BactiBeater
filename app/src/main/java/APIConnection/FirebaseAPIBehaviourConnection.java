@@ -143,4 +143,51 @@ public class FirebaseAPIBehaviourConnection extends AppCompatActivity {
         Log.d(LOG, "Request sent");
         mQueue.add(stringRequest);
     }
+
+    public void getLocationAndDateSpecificData(final VolleyResponseListener listener, String locationName, String date){
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(context);
+        }
+
+        JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, urlAPIBehaviour, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray responses) {
+                List<BehaviourItem> locationAndDateBehaviourItems = new ArrayList<>();
+
+                for (int i = 0; i < responses.length(); i++){
+                    try {
+                        JSONObject behaviour = responses.getJSONObject(i);
+                        String behaviourModelId = behaviour.getString("behaviourModelId");
+                        String bactiBeaterId = behaviour.getString("bactiBeaterId");
+                        String beaconId = behaviour.getString("beaconId");
+                        String beaconInteractionTime = behaviour.getString("beaconInteractionTime"); //burde være datetime
+                        String beaconName = behaviour.getString("beaconName");
+                        boolean didSanitize = behaviour.getBoolean("didSanitize");
+
+                        BehaviourItem behaviourItem = new BehaviourItem(behaviourModelId, bactiBeaterId, beaconId, beaconInteractionTime, beaconName, didSanitize);
+                        locationAndDateBehaviourItems.add(behaviourItem);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                listener.onResponse(locationAndDateBehaviourItems);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("FirebaseAPI", "JsonRequest did not work. " + error.getMessage());
+            }
+        })  {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "Basic "+ Base64.encodeToString((userName + ":" + password).getBytes(), Base64.DEFAULT));
+                return headers;
+            }
+        };
+
+        Log.d(LOG, "Request sent");
+        mQueue.add(jsonRequest);
+    }
 }

@@ -9,21 +9,28 @@ import android.util.Log;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import APIConnection.Callback;
 import APIConnection.FirebaseAPIBehaviourConnection;
 import APIConnection.FirebaseAPISignInConnection;
 import Items.BehaviourItem;
+import Items.SpecificLocationSanitizeItem;
 import Items.UserItem;
+import kathrine.nanna.bactibeater.SpecificLocationActivity;
 
 public class BackgroundService extends Service {
     private static final String LOG = "MyBackgroundService";
     private static final String BROADCASTTEST = "test";
     private static final String OVERVIEWCHARTDATA = "overviewPieData";
     private static final String LOCATIONS = "locations";
+    private static final String LOCATIONSPECIFICDATA = "locationSpecificData";
 
     private List<String> locationNames;
+    private List<BehaviourItem> behaviourData;
+    List<BehaviourItem> locationSpecificBehaviourData;
+    private List<SpecificLocationSanitizeItem> locationSpecificSanitizeData;
     private int visitorsSanitized = 0;
     private int visitorsDidNotSanitize = 0;
 
@@ -47,18 +54,9 @@ public class BackgroundService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(LOG, "Service running");
-        broadcastTest();
-
+        behaviourData = new ArrayList<>();
 
         return super.onStartCommand(intent, flags, startId);
-    }
-
-    // This is just a test of sending a broadcast
-    private void broadcastTest() {
-        Intent broadcastIntent = new Intent();
-        broadcastIntent.setAction(BROADCASTTEST);
-
-        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
     }
 
     //Broadcasts
@@ -74,19 +72,10 @@ public class BackgroundService extends Service {
         LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
     }
 
-    public void getBehaviourModels() {
-
-        firebaseAPIBehaviourConnection.getBehaviours(new FirebaseAPIBehaviourConnection.VolleyResponseListener() {
-            @Override
-            public void onError(String message) {
-
-            }
-
-            @Override
-            public void onResponse(List<BehaviourItem> response) {
-                //MANGLER
-            }
-        });
+    private void broadcastLocationSpecificData(){
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.setAction(LOCATIONSPECIFICDATA);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
     }
 
     public int returnSanitizedDataForOverview(){
@@ -97,7 +86,8 @@ public class BackgroundService extends Service {
         return visitorsDidNotSanitize;
     }
 
-    public void getAPIDataForOverview(){
+    //Gets the data as soon as an user has signed in, and this data will be used throughout this userscenario
+    public void getAPIData(){
         firebaseAPIBehaviourConnection.getBehaviours(new FirebaseAPIBehaviourConnection.VolleyResponseListener() {
             @Override
             public void onError(String message) {
@@ -106,6 +96,8 @@ public class BackgroundService extends Service {
 
             @Override
             public void onResponse(List<BehaviourItem> response) {
+                behaviourData = response;
+
                 for(int i = 0; i < response.size(); i++) {
                     if (response.get(i).isDidSanitize() == true) {
                         visitorsSanitized++;
@@ -118,36 +110,6 @@ public class BackgroundService extends Service {
         });
     }
 
-    /*
-    public void getAPIDataForOverview(){
-        firebaseAPIBehaviourConnection.getBehaviours(new FirebaseAPIBehaviourConnection.VolleyResponseListener() {
-            @Override
-            public void onError(String message) {
-
-            }
-
-            @Override
-            public void onResponse(final List<BehaviourItem> response) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        for(int i = 0; i < response.size(); i++){
-                            if (response.get(i).isDidSanitize() == true){
-                                visitorsSanitized++;
-                            } else if (response.get(i).isDidSanitize() == false){
-                                visitorsDidNotSanitize++;
-                            }
-                        }
-                    }
-                }).start();
-                broadcastOverviewChartData();
-
-            }
-        });
-    }
-
-     */
-
     public void SignIn(String userName, String password, Callback callback) {
         firebaseAPIBehaviourConnection.userName = userName;
         firebaseAPIBehaviourConnection.password = password;
@@ -155,33 +117,54 @@ public class BackgroundService extends Service {
         firebaseAPIBehaviourConnection.isSignedIn(callback);
     }
 
-    public void getAllLocations(){
-        firebaseAPIBehaviourConnection.getBehaviours(new FirebaseAPIBehaviourConnection.VolleyResponseListener() {
-            @Override
-            public void onError(String message) {
-
+    public List<String> returnAllLocations() {
+        locationNames = new ArrayList<>();
+        for (int i = 0; i < behaviourData.size(); i++) {
+            String locationName = behaviourData.get(i).getBeaconName();
+            if (locationNames.contains(locationName) == false) {
+                locationNames.add(locationName);
             }
-
-            @Override
-            public void onResponse(final List<BehaviourItem> response) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        locationNames = new ArrayList<>();
-                        for(int i = 0; i < response.size(); i++){
-                            String locationName = response.get(i).getBeaconId();
-                            if (locationNames.contains(locationName) == false){
-                                locationNames.add(locationName);
-                            }
-                        }
-                    }
-                }).start();
-                broadcastLocations();
-            }
-        });
-    }
-
-    public List<String> returnAllLocations(){
+        }
         return locationNames;
     }
+
+    public void getLocationAndDateSpecificData(String locationName){
+        locationSpecificBehaviourData = new ArrayList<>();
+        broadcastLocationSpecificData();
+    }
+
+    public List<SpecificLocationSanitizeItem> returnLocationSpecificData(){
+
+
+        List<String> dates = new ArrayList<>();
+        int visitorCount = 0;
+        int sanitizeCount = 0;
+
+        for (int i = 0; i < locationSpecificBehaviourData.size(); i++)
+        {
+            if (dates.contains(locationSpecificBehaviourData.get(i).getDate()) == false){
+                dates.add(locationSpecificBehaviourData.get(i).getDate());
+            }
+        }
+
+        for (int i = 0; i < dates.size(); i++){
+            for (int j = 0; j < locationSpecificBehaviourData.size(); i++){
+                if (dates.get(i) == locationSpecificBehaviourData.get(j).getDate())
+                {
+                    visitorCount++;
+
+                    if (locationSpecificBehaviourData.get(j).isDidSanitize() == true){
+                        sanitizeCount++;
+                    }
+
+                    String locationForList = locationSpecificBehaviourData.get(j).getBeaconName();   //skal være andet sted
+                    String dateForList = locationSpecificBehaviourData.get(j).getDate();                                   //Skal være andet sted
+                }
+            }
+        }
+
+        return Lssss; 
+    }
+
+
 }

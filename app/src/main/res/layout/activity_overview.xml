@@ -124,7 +124,7 @@
         android:layout_marginBottom="16dp"
         android:background="#80CBC4"
         android:shadowColor="#B2DFDB"
-        android:text="@string/go_back"
+        android:text="@string/sign_out"
         android:textAllCaps="false"
         android:textColor="#00796B"
         app:layout_constraintBottom_toTopOf="@+id/exitB"

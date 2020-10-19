@@ -54,7 +54,6 @@ public class BackgroundService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(LOG, "Service running");
-        behaviourData = new ArrayList<>();
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -129,18 +128,24 @@ public class BackgroundService extends Service {
     }
 
     public void getLocationAndDateSpecificData(String locationName){
-        locationSpecificBehaviourData = new ArrayList<>();
+
         broadcastLocationSpecificData();
     }
 
-    public List<SpecificLocationSanitizeItem> returnLocationSpecificData(){
-
-        locationSpecificSanitizeData = new ArrayList<>(); 
+    public List<SpecificLocationSanitizeItem> returnLocationSpecificData(String location){
+        locationSpecificBehaviourData = new ArrayList<>();
+        locationSpecificSanitizeData = new ArrayList<>();
         List<String> dates = new ArrayList<>();
         int visitorCount = 0;
         int sanitizeCount = 0;
 
         SpecificLocationSanitizeItem specificLocationSanitizeItem;
+
+        for (int i = 0; i < behaviourData.size(); i++){
+            if(behaviourData.get(i).getBeaconName().equals(location)){
+                locationSpecificBehaviourData.add(behaviourData.get(i));
+            }
+        }
 
         for (int i = 0; i < locationSpecificBehaviourData.size(); i++)
         {
@@ -150,7 +155,7 @@ public class BackgroundService extends Service {
         }
 
         for (int i = 0; i < dates.size(); i++){
-            for (int j = 0; j < locationSpecificBehaviourData.size(); i++){
+            for (int j = 0; j < locationSpecificBehaviourData.size(); j++){
 
                 String locationForList = locationSpecificBehaviourData.get(j).getBeaconName();
                 String dateForList = locationSpecificBehaviourData.get(j).getDate();
@@ -170,6 +175,4 @@ public class BackgroundService extends Service {
 
         return locationSpecificSanitizeData;
     }
-
-
 }

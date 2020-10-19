@@ -79,14 +79,14 @@ public class SpecificLocationActivity extends AppCompatActivity{
     }
 
     //Recieving broadcasts
-    public class LocationsBroadcastReceiver extends BroadcastReceiver {
+    /*public class LocationsBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent){
             specificLocationItems = bService.returnLocationSpecificData();
             mySpecificLocationAdapter.updateRecyclerview(specificLocationItems);
             mySpecificLocationAdapter.notifyDataSetChanged();
         }
-    }
+    }*/
 
     //Setting up connection to service
     private ServiceConnection connection;
@@ -102,7 +102,9 @@ public class SpecificLocationActivity extends AppCompatActivity{
                 Intent intent = getIntent();
                 String locationName = intent.getStringExtra(LOCATIONNAME);
 
-                bService.getLocationAndDateSpecificData(locationName);
+                //bService.getLocationAndDateSpecificData(locationName);
+
+                specificLocationItems = bService.returnLocationSpecificData(locationName);
 
                 mySpecificLocationAdapter = new MySpecificLocationAdapter(specificLocationItems, SpecificLocationActivity.this);
                 recyclerView.setAdapter(mySpecificLocationAdapter);

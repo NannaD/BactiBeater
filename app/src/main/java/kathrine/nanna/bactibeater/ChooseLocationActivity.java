@@ -83,8 +83,8 @@ public class ChooseLocationActivity extends AppCompatActivity implements MyAdapt
     /*public class LocationsBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent){
-            locationItems = bService.returnAllLocations();
-            myAdapter.updateRecyclerview(locationItems);
+            locationNames = bService.returnAllLocations();
+            myAdapter.updateRecyclerview(locationNames);
             myAdapter.notifyDataSetChanged();
         }
     }*/
@@ -101,14 +101,10 @@ public class ChooseLocationActivity extends AppCompatActivity implements MyAdapt
                 bound = true;
 
                 locationNames = bService.returnAllLocations();
-                myAdapter = new MyAdapter(locationNames, ChooseLocationActivity.this, ChooseLocationActivity.this);
-                myAdapter.updateRecyclerview(locationNames);
-                myAdapter.notifyDataSetChanged();
 
-                /*bService.getAllLocations();
-                myAdapter = new MyAdapter(locationItems, ChooseLocationActivity.this, ChooseLocationActivity.this);
+                myAdapter = new MyAdapter(locationNames, ChooseLocationActivity.this, ChooseLocationActivity.this);
                 recyclerView.setAdapter(myAdapter);
-                myAdapter.notifyDataSetChanged();*/
+                myAdapter.notifyDataSetChanged();
             }
 
             @Override

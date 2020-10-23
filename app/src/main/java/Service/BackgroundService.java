@@ -14,7 +14,6 @@ import java.util.List;
 
 import APIConnection.Callback;
 import APIConnection.FirebaseAPIBehaviourConnection;
-import APIConnection.FirebaseAPISignInConnection;
 import Items.BehaviourItem;
 import Items.SpecificLocationSanitizeItem;
 import Items.UserItem;
@@ -35,7 +34,6 @@ public class BackgroundService extends Service {
     private int visitorsDidNotSanitize = 0;
 
     private FirebaseAPIBehaviourConnection firebaseAPIBehaviourConnection = new FirebaseAPIBehaviourConnection(BackgroundService.this);
-
 
     public class LocalBinder extends Binder {
         public BackgroundService getService() {

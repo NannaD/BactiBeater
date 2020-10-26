@@ -1,13 +1,13 @@
 package Items;
 
-public class SpecificLocationSanitizeItem {
+public class SanitizeItem {
 
     private String location;
     private String date;
     private int visitorCount;
     private int sanitizeCount;
 
-    public SpecificLocationSanitizeItem(String location, String date, int visitorCount, int sanitizeCount) {
+    public SanitizeItem(String location, String date, int visitorCount, int sanitizeCount) {
         this.location = location;
         this.date = date;
         this.visitorCount = visitorCount;

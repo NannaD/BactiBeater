@@ -1,7 +1,6 @@
 package kathrine.nanna.bactibeater;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,19 +8,16 @@ import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.ArrayList;
 import java.util.List;
 import RecyclerView.MySpecificLocationAdapter;
-import RecyclerView.MyAdapter;
 
-import Items.SpecificLocationSanitizeItem;
+import Items.SanitizeItem;
 import Service.BackgroundService;
 
 public class SpecificLocationActivity extends AppCompatActivity{
@@ -34,7 +30,7 @@ public class SpecificLocationActivity extends AppCompatActivity{
     private static final String LOCATIONNAME = "locationName";
 
     //TextViews, Lists, etc.
-    private List<SpecificLocationSanitizeItem> specificLocationItems;
+    private List<SanitizeItem> specificLocationItems;
 
     //Buttons
     private Button goBackB;
@@ -79,14 +75,14 @@ public class SpecificLocationActivity extends AppCompatActivity{
     }
 
     //Recieving broadcasts
-    /*public class LocationsBroadcastReceiver extends BroadcastReceiver {
+    public class LocationsBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent){
             specificLocationItems = bService.returnLocationSpecificData();
             mySpecificLocationAdapter.updateRecyclerview(specificLocationItems);
             mySpecificLocationAdapter.notifyDataSetChanged();
         }
-    }*/
+    }
 
     //Setting up connection to service
     private ServiceConnection connection;
@@ -102,9 +98,7 @@ public class SpecificLocationActivity extends AppCompatActivity{
                 Intent intent = getIntent();
                 String locationName = intent.getStringExtra(LOCATIONNAME);
 
-                //bService.getLocationAndDateSpecificData(locationName);
-
-                specificLocationItems = bService.returnLocationSpecificData(locationName);
+                bService.getLocationAndDateSpecificData(locationName);
 
                 mySpecificLocationAdapter = new MySpecificLocationAdapter(specificLocationItems, SpecificLocationActivity.this);
                 recyclerView.setAdapter(mySpecificLocationAdapter);

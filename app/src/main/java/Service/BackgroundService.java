@@ -9,16 +9,13 @@ import android.util.Log;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import APIConnection.Callback;
 import APIConnection.FirebaseAPIBehaviourConnection;
-import APIConnection.FirebaseAPISignInConnection;
+import APIConnection.FirebaseAPISanitizeItemConnection;
 import Items.BehaviourItem;
-import Items.SpecificLocationSanitizeItem;
-import Items.UserItem;
-import kathrine.nanna.bactibeater.SpecificLocationActivity;
+import Items.SanitizeItem;
 
 public class BackgroundService extends Service {
     private static final String LOG = "MyBackgroundService";
@@ -29,12 +26,13 @@ public class BackgroundService extends Service {
 
     private List<String> locationNames;
     private List<BehaviourItem> behaviourData;
-    List<BehaviourItem> locationSpecificBehaviourData;
-    private List<SpecificLocationSanitizeItem> locationSpecificSanitizeData;
+    private List<SanitizeItem> sanitizeItems;
+    private List<SanitizeItem> locationSpecificSanitizeItems;
     private int visitorsSanitized = 0;
     private int visitorsDidNotSanitize = 0;
 
     private FirebaseAPIBehaviourConnection firebaseAPIBehaviourConnection = new FirebaseAPIBehaviourConnection(BackgroundService.this);
+    private FirebaseAPISanitizeItemConnection firebaseAPISanitizeItemConnection = new FirebaseAPISanitizeItemConnection(BackgroundService.this);
 
 
     public class LocalBinder extends Binder {
@@ -77,13 +75,7 @@ public class BackgroundService extends Service {
         LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
     }
 
-    public int returnSanitizedDataForOverview(){
-        return visitorsSanitized;
-    }
 
-    public int returnDidNotSanitizeDataForOverview(){
-        return visitorsDidNotSanitize;
-    }
 
     //Gets the data as soon as an user has signed in, and this data will be used throughout this userscenario
     public void getAPIData(){
@@ -116,6 +108,28 @@ public class BackgroundService extends Service {
         firebaseAPIBehaviourConnection.isSignedIn(callback);
     }
 
+    public void getLocationAndDateSpecificData(final String location) {
+        firebaseAPISanitizeItemConnection.getLocationAndDateSpecificData(new FirebaseAPISanitizeItemConnection.VolleyResponseListener() {
+            @Override
+            public void onError(String message) {
+
+            }
+
+            @Override
+            public void onResponse(List<SanitizeItem> response) {
+                sanitizeItems = response;
+
+                for (int i = 0; i < sanitizeItems.size(); i++){
+                    if (sanitizeItems.get(i).getLocation() == location){
+                        locationSpecificSanitizeItems.add(sanitizeItems.get(i));
+                    }
+                }
+                broadcastLocationSpecificData();
+            }
+        });
+    }
+
+
     public List<String> returnAllLocations() {
         locationNames = new ArrayList<>();
         for (int i = 0; i < behaviourData.size(); i++) {
@@ -127,52 +141,15 @@ public class BackgroundService extends Service {
         return locationNames;
     }
 
-    public void getLocationAndDateSpecificData(String locationName){
-
-        broadcastLocationSpecificData();
+    public List<SanitizeItem> returnLocationSpecificData(){
+        return locationSpecificSanitizeItems;
     }
 
-    public List<SpecificLocationSanitizeItem> returnLocationSpecificData(String location){
-        locationSpecificBehaviourData = new ArrayList<>();
-        locationSpecificSanitizeData = new ArrayList<>();
-        List<String> dates = new ArrayList<>();
-        int visitorCount = 0;
-        int sanitizeCount = 0;
+    public int returnSanitizedDataForOverview(){
+        return visitorsSanitized;
+    }
 
-        SpecificLocationSanitizeItem specificLocationSanitizeItem;
-
-        for (int i = 0; i < behaviourData.size(); i++){
-            if(behaviourData.get(i).getBeaconName().equals(location)){
-                locationSpecificBehaviourData.add(behaviourData.get(i));
-            }
-        }
-
-        for (int i = 0; i < locationSpecificBehaviourData.size(); i++)
-        {
-            if (dates.contains(locationSpecificBehaviourData.get(i).getDate()) == false){
-                dates.add(locationSpecificBehaviourData.get(i).getDate());
-            }
-        }
-
-        for (int i = 0; i < dates.size(); i++){
-            for (int j = 0; j < locationSpecificBehaviourData.size(); j++){
-
-                String locationForList = locationSpecificBehaviourData.get(j).getBeaconName();
-                String dateForList = locationSpecificBehaviourData.get(j).getDate();
-
-                if (dates.get(i) == locationSpecificBehaviourData.get(j).getDate())
-                {
-                    visitorCount++;
-
-                    if (locationSpecificBehaviourData.get(j).isDidSanitize() == true){
-                        sanitizeCount++;
-                    }
-                }
-                specificLocationSanitizeItem  = new SpecificLocationSanitizeItem(locationForList, dateForList, visitorCount, sanitizeCount);
-                locationSpecificSanitizeData.add(specificLocationSanitizeItem);
-            }
-        }
-
-        return locationSpecificSanitizeData;
+    public int returnDidNotSanitizeDataForOverview(){
+        return visitorsDidNotSanitize;
     }
 }

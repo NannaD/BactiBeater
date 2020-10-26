@@ -11,16 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import Items.SpecificLocationSanitizeItem;
+import Items.SanitizeItem;
 import kathrine.nanna.bactibeater.R;
 
 public class MySpecificLocationAdapter extends RecyclerView.Adapter<MySpecificLocationAdapter.ViewHolder> {
 
-    private List<SpecificLocationSanitizeItem> specificLocationSanitizeItems;
+    private List<SanitizeItem> sanitizeItems;
     private Context context;
 
-    public MySpecificLocationAdapter(List<SpecificLocationSanitizeItem> specificLocationSanitizeItems, Context context) {
-        this.specificLocationSanitizeItems = specificLocationSanitizeItems;
+    public MySpecificLocationAdapter(List<SanitizeItem> sanitizeItems, Context context) {
+        this.sanitizeItems = sanitizeItems;
         this.context = context;
     }
 
@@ -32,17 +32,17 @@ public class MySpecificLocationAdapter extends RecyclerView.Adapter<MySpecificLo
 
     @Override
     public void onBindViewHolder(MySpecificLocationAdapter.ViewHolder holder, int position) {
-        SpecificLocationSanitizeItem specificLocationSanitizeItem = specificLocationSanitizeItems.get(position);
+        SanitizeItem sanitizeItem = sanitizeItems.get(position);
 
-        holder.dateTV.setText(specificLocationSanitizeItem.getDate());
-        holder.visitorsTV.setText(Integer.toString(specificLocationSanitizeItem.getVisitorCount()));
-        holder.sanitizeTV.setText(Integer.toString(specificLocationSanitizeItem.getSanitizeCount()));
+        holder.dateTV.setText(sanitizeItem.getDate());
+        holder.visitorsTV.setText(Integer.toString(sanitizeItem.getVisitorCount()));
+        holder.sanitizeTV.setText(Integer.toString(sanitizeItem.getSanitizeCount()));
         holder.procentageTV.setText("0");
     }
 
     @Override
     public int getItemCount() {
-        return specificLocationSanitizeItems.size();
+        return sanitizeItems.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -63,10 +63,10 @@ public class MySpecificLocationAdapter extends RecyclerView.Adapter<MySpecificLo
         }
     }
 
-    public void updateRecyclerview(List<SpecificLocationSanitizeItem> specificLocationSanitizeItems)
+    public void updateRecyclerview(List<SanitizeItem> sanitizeItems)
     {
-        specificLocationSanitizeItems.clear();
-        specificLocationSanitizeItems.addAll(specificLocationSanitizeItems);
+        sanitizeItems.clear();
+        sanitizeItems.addAll(sanitizeItems);
         notifyDataSetChanged();
     }
 }

@@ -36,7 +36,6 @@ public class FirebaseAPIBehaviourConnection extends AppCompatActivity {
     private RequestQueue mQueue;
     private String urlAPIBehaviour = "https://bactibeater.azurewebsites.net/api/BehaviourModels";
     private String urlAPISignIn = "https://bactibeater.azurewebsites.net/api/BehaviourModels/TestSignIn";
-    private String urlSanitizeItem = "https://bactibeater.azurewebsites.net/api/SanitizeItemModel";
     private Context context;
     public String userName;
     public String password;

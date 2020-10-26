@@ -19,7 +19,6 @@ import Items.SanitizeItem;
 
 public class BackgroundService extends Service {
     private static final String LOG = "MyBackgroundService";
-    private static final String BROADCASTTEST = "test";
     private static final String OVERVIEWCHARTDATA = "overviewPieData";
     private static final String LOCATIONS = "locations";
     private static final String LOCATIONSPECIFICDATA = "locationSpecificData";
@@ -149,5 +148,14 @@ public class BackgroundService extends Service {
 
     public int returnDidNotSanitizeDataForOverview(){
         return visitorsDidNotSanitize;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        locationSpecificSanitizeItems.clear();
+        behaviourData.clear();
+        sanitizeItems.clear();
+        locationNames.clear();
     }
 }

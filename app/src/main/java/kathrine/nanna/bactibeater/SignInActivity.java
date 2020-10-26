@@ -63,21 +63,6 @@ public class SignInActivity extends AppCompatActivity {
                         }
                     });
                 }
-                /*
-                //for (int i = 0; i <= users.Count; i++){
-                    if(usernameTB.getText().toString().equals("nanna") && passwordTB.getText().toString().equals(bService.)){
-                        finish();
-                        Intent intent = new Intent(SignInActivity.this, OverviewActivity.class);
-                        startActivity(intent);
-                    }
-                    else if(usernameTB.getText().toString().equals("") && passwordTB.getText().toString().equals("")){
-                        showAlertDialogEmptyText();
-                    }
-                    else if(!usernameTB.getText().toString().equals("nanna") || !passwordTB.getText().toString().equals("banan")){
-                        showAlertDialogWrongUsernameOrPassword();
-                    }
-                    */
-                //}
             }
         });
 
@@ -173,6 +158,18 @@ public class SignInActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         unBindFromService();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
     }
 
     @Override

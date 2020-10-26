@@ -44,7 +44,7 @@ public class SpecificLocationActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specific_location);
 
-        //UI and widgets
+        //UI and widgetss
         recyclerView = findViewById(R.id.specificSanitizeDataRV);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -79,7 +79,9 @@ public class SpecificLocationActivity extends AppCompatActivity{
         @Override
         public void onReceive(Context context, Intent intent){
             specificLocationItems = bService.returnLocationSpecificData();
-            mySpecificLocationAdapter.updateRecyclerview(specificLocationItems);
+
+            mySpecificLocationAdapter = new MySpecificLocationAdapter(specificLocationItems, SpecificLocationActivity.this);
+            recyclerView.setAdapter(mySpecificLocationAdapter);
             mySpecificLocationAdapter.notifyDataSetChanged();
         }
     }
@@ -99,10 +101,6 @@ public class SpecificLocationActivity extends AppCompatActivity{
                 String locationName = intent.getStringExtra(LOCATIONNAME);
 
                 bService.getLocationAndDateSpecificData(locationName);
-
-                mySpecificLocationAdapter = new MySpecificLocationAdapter(specificLocationItems, SpecificLocationActivity.this);
-                recyclerView.setAdapter(mySpecificLocationAdapter);
-                mySpecificLocationAdapter.notifyDataSetChanged();
             }
 
             @Override

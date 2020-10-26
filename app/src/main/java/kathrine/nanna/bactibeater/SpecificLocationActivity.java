@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.List;
 import RecyclerView.MySpecificLocationAdapter;
@@ -37,6 +38,7 @@ public class SpecificLocationActivity extends AppCompatActivity{
     //Buttons
     private Button goBackB;
     private Button exitB;
+    private TextView specificLocationTV;
 
     public SpecificLocationActivity() {
     }
@@ -54,6 +56,7 @@ public class SpecificLocationActivity extends AppCompatActivity{
         //UI's and widges setup
         goBackB = findViewById(R.id.goBackB);
         exitB = findViewById(R.id.exitB);
+        specificLocationTV = findViewById(R.id.specificLocationTV);
 
         //Button functionality
         goBackB.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +105,7 @@ public class SpecificLocationActivity extends AppCompatActivity{
                 Intent intent = getIntent();
                 String locationName = intent.getStringExtra("locationName");
 
+                specificLocationTV.setText(locationName);
                 bService.getLocationAndDateSpecificData(locationName);
             }
 

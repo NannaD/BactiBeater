@@ -10,6 +10,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import APIConnection.Callback;
 import APIConnection.FirebaseAPIBehaviourConnection;
@@ -26,9 +27,12 @@ public class BackgroundService extends Service {
     private List<String> locationNames;
     private List<BehaviourItem> behaviourData;
     private List<SanitizeItem> sanitizeItems;
-    private List<SanitizeItem> locationSpecificSanitizeItems;
+    private ArrayList<SanitizeItem> locationSpecificSanitizeItems = new ArrayList<>();
+
     private int visitorsSanitized = 0;
     private int visitorsDidNotSanitize = 0;
+    public String uName;
+    public String pWord;
 
     private FirebaseAPIBehaviourConnection firebaseAPIBehaviourConnection = new FirebaseAPIBehaviourConnection(BackgroundService.this);
     private FirebaseAPISanitizeItemConnection firebaseAPISanitizeItemConnection = new FirebaseAPISanitizeItemConnection(BackgroundService.this);
@@ -102,11 +106,14 @@ public class BackgroundService extends Service {
         firebaseAPIBehaviourConnection.userName = userName;
         firebaseAPIBehaviourConnection.password = password;
 
+        uName = userName;
+        pWord = password;
+
         firebaseAPIBehaviourConnection.isSignedIn(callback);
     }
 
     public void getLocationAndDateSpecificData(final String location) {
-        firebaseAPISanitizeItemConnection.getLocationAndDateSpecificData(new FirebaseAPISanitizeItemConnection.VolleyResponseListener() {
+        firebaseAPISanitizeItemConnection.getLocationAndDateSpecificData(uName, pWord, new FirebaseAPISanitizeItemConnection.VolleyResponseListener() {
             @Override
             public void onError(String message) {
 
@@ -117,7 +124,8 @@ public class BackgroundService extends Service {
                 sanitizeItems = response;
 
                 for (int i = 0; i < sanitizeItems.size(); i++){
-                    if (sanitizeItems.get(i).getLocation() == location){
+                    String v = sanitizeItems.get(i).getLocation();
+                    if (v.equals(location) == true){
                         locationSpecificSanitizeItems.add(sanitizeItems.get(i));
                     }
                 }

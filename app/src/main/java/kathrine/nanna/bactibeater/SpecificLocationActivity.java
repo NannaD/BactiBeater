@@ -1,6 +1,7 @@
 package kathrine.nanna.bactibeater;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -27,7 +29,7 @@ public class SpecificLocationActivity extends AppCompatActivity{
     private RecyclerView.LayoutManager layoutManager;
     private BackgroundService bService;
     private boolean bound;
-    private static final String LOCATIONNAME = "locationName";
+    private static final String LOCATIONSPECIFICDATA = "locationSpecificData";
 
     //TextViews, Lists, etc.
     private List<SanitizeItem> specificLocationItems;
@@ -98,7 +100,7 @@ public class SpecificLocationActivity extends AppCompatActivity{
                 bound = true;
 
                 Intent intent = getIntent();
-                String locationName = intent.getStringExtra(LOCATIONNAME);
+                String locationName = intent.getStringExtra("locationName");
 
                 bService.getLocationAndDateSpecificData(locationName);
             }
@@ -151,6 +153,9 @@ public class SpecificLocationActivity extends AppCompatActivity{
 
         setupConnectionToService();
         bindToService();
+
+        //Set up broadcastmanagers
+        LocalBroadcastManager.getInstance(this).registerReceiver(new SpecificLocationActivity.LocationsBroadcastReceiver(), new IntentFilter(LOCATIONSPECIFICDATA));
     }
 
 

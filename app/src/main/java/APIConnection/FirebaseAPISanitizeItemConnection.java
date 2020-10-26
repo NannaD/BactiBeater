@@ -1,7 +1,11 @@
 package APIConnection;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Base64;
 import android.util.Log;
 
@@ -26,6 +30,8 @@ import java.util.Map;
 
 import Items.BehaviourItem;
 import Items.SanitizeItem;
+import Service.BackgroundService;
+import kathrine.nanna.bactibeater.SignInActivity;
 
 public class FirebaseAPISanitizeItemConnection {
 
@@ -35,6 +41,10 @@ public class FirebaseAPISanitizeItemConnection {
     private RequestQueue mQueue;
     public String userName;
     public String password;
+
+    private BackgroundService bService;
+    private boolean bound;
+
 
     public FirebaseAPISanitizeItemConnection(Context context) {
         this.context = context;
@@ -46,10 +56,12 @@ public class FirebaseAPISanitizeItemConnection {
         void onResponse(List<SanitizeItem> response);
     }
 
-    public void getLocationAndDateSpecificData(final FirebaseAPISanitizeItemConnection.VolleyResponseListener listener){
+    public void getLocationAndDateSpecificData(String _password, String _username, final FirebaseAPISanitizeItemConnection.VolleyResponseListener listener){
         if (mQueue == null) {
             mQueue = Volley.newRequestQueue(context);
         }
+        password = _password;
+        userName = _username;
 
         JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, urlSanitizeItem, null, new Response.Listener<JSONArray>() {
             @Override
@@ -90,4 +102,5 @@ public class FirebaseAPISanitizeItemConnection {
         Log.d(LOG, "SanitizeItem request sent");
         mQueue.add(jsonRequest);
     }
+
 }

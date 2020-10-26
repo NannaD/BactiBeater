@@ -63,10 +63,11 @@ public class MySpecificLocationAdapter extends RecyclerView.Adapter<MySpecificLo
         }
     }
 
-    public void updateRecyclerview(List<SanitizeItem> sanitizeItems)
+    public void updateRecyclerview(List<SanitizeItem> sanitizeItemsList)
     {
+        sanitizeItems = sanitizeItemsList;
         sanitizeItems.clear();
-        sanitizeItems.addAll(sanitizeItems);
+        sanitizeItems.addAll(sanitizeItemsList);
         notifyDataSetChanged();
     }
 }

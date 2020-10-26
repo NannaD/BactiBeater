@@ -32,7 +32,7 @@ public class SpecificLocationActivity extends AppCompatActivity{
     //TextViews, Lists, etc.
     private List<SanitizeItem> specificLocationItems;
 
-    //Buttons
+    //Buttonsss
     private Button goBackB;
     private Button exitB;
 

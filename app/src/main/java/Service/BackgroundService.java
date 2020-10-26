@@ -81,9 +81,7 @@ public class BackgroundService extends Service {
     public void getAPIData(){
         firebaseAPIBehaviourConnection.getBehaviours(new FirebaseAPIBehaviourConnection.VolleyResponseListener() {
             @Override
-            public void onError(String message) {
-
-            }
+            public void onError(String message) { }
 
             @Override
             public void onResponse(List<BehaviourItem> response) {

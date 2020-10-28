@@ -38,7 +38,6 @@ public class ChooseLocationActivity extends AppCompatActivity implements MyAdapt
 
     //Strings
     private static final String LOCATIONNAME = "locationName";
-    private static final String LOCATIONS = "locations";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,16 +77,6 @@ public class ChooseLocationActivity extends AppCompatActivity implements MyAdapt
         intent.putExtra(LOCATIONNAME, locationNavigation);
         startActivity(intent);
     }
-
-    //Recieving broadcasts
-    /*public class LocationsBroadcastReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent){
-            locationNames = bService.returnAllLocations();
-            myAdapter.updateRecyclerview(locationNames);
-            myAdapter.notifyDataSetChanged();
-        }
-    }*/
 
     //Setting up connection to service
     private ServiceConnection connection;

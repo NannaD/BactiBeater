@@ -17,17 +17,20 @@ import APIConnection.FirebaseAPIBehaviourConnection;
 import APIConnection.FirebaseAPISanitizeItemConnection;
 import Items.BehaviourItem;
 import Items.SanitizeItem;
+import Items.SevenDaysOverviewItem;
 
 public class BackgroundService extends Service {
     private static final String LOG = "MyBackgroundService";
     private static final String OVERVIEWCHARTDATA = "overviewPieData";
     private static final String LOCATIONS = "locations";
     private static final String LOCATIONSPECIFICDATA = "locationSpecificData";
+    private static final String BROADCASTSEVENDAYS = "SevenDaysItems";
 
     private List<String> locationNames;
     private List<BehaviourItem> behaviourData;
     private List<SanitizeItem> sanitizeItems;
     private ArrayList<SanitizeItem> locationSpecificSanitizeItems = new ArrayList<>();
+    private List<SevenDaysOverviewItem> sevenDaysOverviewItems = new ArrayList<>();
 
     private int visitorsSanitized = 0;
     private int visitorsDidNotSanitize = 0;
@@ -66,19 +69,22 @@ public class BackgroundService extends Service {
         LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
     }
 
-    private void broadcastLocations() {
-        Intent broadcastIntent = new Intent();
-        broadcastIntent.setAction(LOCATIONS);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
-    }
-
     private void broadcastLocationSpecificData(){
         Intent broadcastIntent = new Intent();
         broadcastIntent.setAction(LOCATIONSPECIFICDATA);
         LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
     }
 
+    private void broadcastSevenDaysItems(){
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.setAction(BROADCASTSEVENDAYS);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
+    }
 
+    public void getLastSevenDaysOverview(){
+        //SKAL LAVES I APIET FOR AT KUNNE SE DE SUMMEREDE SEVENDAYSITEMS
+        broadcastSevenDaysItems();
+    }
 
     //Gets the data as soon as an user has signed in, and this data will be used throughout this userscenario
     public void getAPIData(){
@@ -134,7 +140,6 @@ public class BackgroundService extends Service {
         });
     }
 
-
     public List<String> returnAllLocations() {
         locationNames = new ArrayList<>();
         for (int i = 0; i < behaviourData.size(); i++) {
@@ -157,6 +162,8 @@ public class BackgroundService extends Service {
     public int returnDidNotSanitizeDataForOverview(){
         return visitorsDidNotSanitize;
     }
+
+    public List<SevenDaysOverviewItem> returnLastSevenDaysOverview(){ return sevenDaysOverviewItems;}
 
     @Override
     public void onDestroy() {

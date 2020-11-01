@@ -102,7 +102,7 @@ public class FirebaseAPIBehaviourConnection extends AppCompatActivity {
             }
         };
 
-        Log.d(LOG, "BehaviourModel request sent");
+        Log.d(LOG, "Request sent");
         mQueue.add(jsonRequest);
     }
 
@@ -139,7 +139,7 @@ public class FirebaseAPIBehaviourConnection extends AppCompatActivity {
             }
         };
 
-        Log.d(LOG, "SignIN request sent");
+        Log.d(LOG, "Request sent");
         mQueue.add(stringRequest);
     }
 }

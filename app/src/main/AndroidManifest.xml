@@ -14,6 +14,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".SpecificLocationActivity"></activity>
         <activity android:name=".ChooseLocationActivity" />
+        <activity android:name=".SevendaysOverviewActivity" />
         <activity android:name=".OverviewActivity" />
         <activity android:name=".SignInActivity">
             <intent-filter>

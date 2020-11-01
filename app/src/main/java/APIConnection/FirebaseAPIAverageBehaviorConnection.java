@@ -1,15 +1,10 @@
 package APIConnection;
 
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.Bundle;
-import android.os.IBinder;
 import android.util.Base64;
 import android.util.Log;
 
-import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -28,31 +23,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Items.BehaviourItem;
+import Items.AverageBehaviourItem;
 import Items.SanitizeItem;
 import Service.BackgroundService;
-import kathrine.nanna.bactibeater.SignInActivity;
 
-public class FirebaseAPISanitizeItemConnection {
-
-    private String urlSanitizeItem = "https://bactibeater.azurewebsites.net/api/SanitizeItemModel";
-    private String LOG = "FIREBASE_API_SANITIZE_ITEM";
+public class FirebaseAPIAverageBehaviorConnection extends AppCompatActivity {
+    private String urlSanitizeItem = "https://bactibeater.azurewebsites.net/api/AverageBehaviourModel";
+    private String LOG = "FIREBASE_API_AVERAGEBEHAVIOR_ITEM";
     private Context context;
     private RequestQueue mQueue;
     public String userName;
     public String password;
 
-    public FirebaseAPISanitizeItemConnection(Context context) {
+    public FirebaseAPIAverageBehaviorConnection(Context context) {
         this.context = context;
     }
 
     //interface used in the service
     public interface VolleyResponseListener{
         void onError(String message);
-        void onResponse(List<SanitizeItem> response);
+        void onResponse(List<AverageBehaviourItem> response);
     }
 
-    public void getLocationAndDateSpecificData(String _password, String _username, final FirebaseAPISanitizeItemConnection.VolleyResponseListener listener){
+    public void getSevenDaysOverview(String _password, String _username, final FirebaseAPIAverageBehaviorConnection.VolleyResponseListener listener){
         if (mQueue == null) {
             mQueue = Volley.newRequestQueue(context);
         }
@@ -62,24 +55,23 @@ public class FirebaseAPISanitizeItemConnection {
         JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, urlSanitizeItem, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray responses) {
-                List<SanitizeItem> sanitizeItems = new ArrayList<>();
+                List<AverageBehaviourItem> averageBehaviourItems = new ArrayList<>();
 
                 for (int i = 0; i < responses.length(); i++){
                     try {
-                        JSONObject sanitizeItemJSON = responses.getJSONObject(i);
-                        String location = sanitizeItemJSON.getString("location");
-                        String date = sanitizeItemJSON.getString("date");
-                        int visitorCount = sanitizeItemJSON.getInt("visitorCount");
-                        int sanitizeCount = sanitizeItemJSON.getInt("sanitizeCount");
+                        JSONObject averageBehaviourItemJSON = responses.getJSONObject(i);
+                        String date = averageBehaviourItemJSON.getString("date");
+                        int locationChanges = averageBehaviourItemJSON.getInt("locationChanges");
+                        int sanitations = averageBehaviourItemJSON.getInt("sanitations");
 
-                        SanitizeItem sanitizeItem = new SanitizeItem(location, date, visitorCount, sanitizeCount);
-                        sanitizeItems.add(sanitizeItem);
+                        AverageBehaviourItem averageBehaviourItem = new AverageBehaviourItem(locationChanges, sanitations, date);
+                        averageBehaviourItems.add(averageBehaviourItem);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-                listener.onResponse(sanitizeItems);
+                listener.onResponse(averageBehaviourItems);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -95,8 +87,7 @@ public class FirebaseAPISanitizeItemConnection {
             }
         };
 
-        Log.d(LOG, "SanitizeItem request sent");
+        Log.d(LOG, "Request sent");
         mQueue.add(jsonRequest);
     }
-
 }

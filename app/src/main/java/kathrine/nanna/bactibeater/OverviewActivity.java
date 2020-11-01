@@ -35,6 +35,8 @@ public class OverviewActivity extends AppCompatActivity {
     private Button goBackB;
     private Button exitB;
     private Button goToChooseActivity;
+    private Button goToSevenDayOverview;
+
     private PieChart overviewPieChart;
     private TextView dateTV;
 
@@ -52,6 +54,8 @@ public class OverviewActivity extends AppCompatActivity {
         goBackB = findViewById(R.id.goBackB);
         exitB = findViewById(R.id.exitB);
         goToChooseActivity = findViewById(R.id.specificDataB);
+        goToSevenDayOverview = findViewById(R.id.sevenDaysOverviewButton);
+
         overviewPieChart = findViewById(R.id.overviewPieChart);
         dateTV = findViewById(R.id.currentDateTV);
 
@@ -64,6 +68,15 @@ public class OverviewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 finish();
                 Intent intent = new Intent(OverviewActivity.this, ChooseLocationActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        goToSevenDayOverview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                Intent intent = new Intent(OverviewActivity.this, SevendaysOverviewActivity.class);
                 startActivity(intent);
             }
         });

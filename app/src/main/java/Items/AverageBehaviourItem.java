@@ -1,12 +1,12 @@
 package Items;
 
-public class SevenDaysOverviewItem {
+public class AverageBehaviourItem {
 
     private String date;
     private int locationChanges;
     private int sanitations;
 
-    public SevenDaysOverviewItem(int locationChanges, int sanitations, String date) {
+    public AverageBehaviourItem(int locationChanges, int sanitations, String date) {
         this.locationChanges = locationChanges;
         this.sanitations = sanitations;
         this.date = date;

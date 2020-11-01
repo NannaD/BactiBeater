@@ -9,9 +9,7 @@ import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.PersistableBundle;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -24,7 +22,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-import Items.SevenDaysOverviewItem;
+import Items.AverageBehaviourItem;
 import Service.BackgroundService;
 
 public class SevendaysOverviewActivity extends AppCompatActivity {
@@ -39,9 +37,32 @@ public class SevendaysOverviewActivity extends AppCompatActivity {
     private PieChart sixdaysago;
     private PieChart sevendaysago;
 
+    private int firstSanitized;
+    private int firstNotSanitized;
+    private int secondSanitized;
+    private int secondNotSanitized;
+    private int thirdSanitized;
+    private int thirdNotSanitized;
+    private int fourthSanitized;
+    private int fourthNotSanitized;
+    private int fifthSanitized;
+    private int fifthNotSanitized;
+    private int sixthSanitized;
+    private int sixtNotSanitized;
+    private int seventhSanitized;
+    private int seventhNotSanitized;
+
+    private String firstDate;
+    private String secondDate;
+    private String thirdDate;
+    private String fourthDate;
+    private String fifthDate;
+    private String sixthDate;
+    private String seventhDate;
+
     private BackgroundService bService;
     private boolean bound;
-    private List<SevenDaysOverviewItem> sevenDaysOverviewItems = new ArrayList<>();
+    private List<AverageBehaviourItem> averageBehaviourItems = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,33 +79,173 @@ public class SevendaysOverviewActivity extends AppCompatActivity {
         sevendaysago = findViewById(R.id.overviewPieChart7);
     }
 
-    public void updateSevenPieCharts(List<SevenDaysOverviewItem> sevenDaysOverviewItems){
+    public void updateSevenPieCharts(List<AverageBehaviourItem> averageBehaviourItems){
 
-        /*ArrayList<PieEntry> visitorsSanitationToday = new ArrayList<>();
-        visitorsSanitationToday.add(new PieEntry(didSanitize, "Sanitized"));
-        visitorsSanitationToday.add(new PieEntry(didNotSanitize, "Failed to sanitize"));
+        firstSanitized = averageBehaviourItems.get(0).getSanitations();
+        firstNotSanitized = averageBehaviourItems.get(0).getLocationChanges() - averageBehaviourItems.get(0).getSanitations();
+        firstDate = averageBehaviourItems.get(0).getDate();
 
-        PieDataSet pieDataSet = new PieDataSet(visitorsSanitationToday, "");
-        pieDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
-        pieDataSet.setValueTextColor(Color.BLACK);
-        pieDataSet.setValueTextSize(16f);
+        secondSanitized = averageBehaviourItems.get(1).getSanitations();
+        secondNotSanitized = averageBehaviourItems.get(1).getLocationChanges() - averageBehaviourItems.get(1).getSanitations();
+        secondDate = averageBehaviourItems.get(1).getDate();
 
-        PieData pieData = new PieData(pieDataSet);
+        thirdSanitized = averageBehaviourItems.get(2).getSanitations();
+        thirdNotSanitized = averageBehaviourItems.get(2).getLocationChanges() - averageBehaviourItems.get(2).getSanitations();
+        thirdDate = averageBehaviourItems.get(2).getDate();
 
 
-        overviewPieChart.getDescription().setEnabled(false);
-        overviewPieChart.setCenterText("Visitors and sanitation");
-        //NinoverviewPieChart.animate();
+        fourthSanitized = averageBehaviourItems.get(3).getSanitations();
+        fourthNotSanitized = averageBehaviourItems.get(3).getLocationChanges() - averageBehaviourItems.get(3).getSanitations();
+        fourthDate = averageBehaviourItems.get(3).getDate();
 
-        overviewPieChart.setData(pieData);
-        overviewPieChart.invalidate(); */
+        fifthSanitized = averageBehaviourItems.get(4).getSanitations();
+        fifthNotSanitized = averageBehaviourItems.get(4).getLocationChanges() - averageBehaviourItems.get(4).getSanitations();
+        fifthDate = averageBehaviourItems.get(4).getDate();
+
+        sixthSanitized = averageBehaviourItems.get(5).getSanitations();
+        sixtNotSanitized = averageBehaviourItems.get(5).getLocationChanges() - averageBehaviourItems.get(5).getSanitations();
+        sixthDate = averageBehaviourItems.get(5).getDate();
+
+        seventhSanitized = averageBehaviourItems.get(6).getSanitations();
+        seventhNotSanitized = averageBehaviourItems.get(6).getLocationChanges() - averageBehaviourItems.get(6).getSanitations();
+        seventhDate = averageBehaviourItems.get(6).getDate();
+
+        //FIRST DAY
+        ArrayList<PieEntry> firstDay = new ArrayList<>();
+        firstDay.add(new PieEntry(firstSanitized, "Santized"));
+        firstDay.add(new PieEntry(firstNotSanitized, "Failed to sanitize"));
+
+        PieDataSet firstPieDataset = new PieDataSet(firstDay, "");
+        firstPieDataset.setColors(ColorTemplate.MATERIAL_COLORS);
+        firstPieDataset.setValueTextColor(Color.BLACK);
+        firstPieDataset.setValueTextSize(16f);
+
+        PieData firstPieData = new PieData(firstPieDataset);
+
+        onedayago.getDescription().setEnabled(false);
+        onedayago.setCenterText(firstDate);
+
+        onedayago.setData(firstPieData);
+        onedayago.invalidate();
+
+        //SECOND DAY
+        ArrayList<PieEntry> secondDay = new ArrayList<>();
+        secondDay.add(new PieEntry(secondSanitized, "Santized"));
+        secondDay.add(new PieEntry(secondNotSanitized, "Failed to sanitize"));
+
+        PieDataSet secondPieDataSet = new PieDataSet(secondDay, "");
+        secondPieDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        secondPieDataSet.setValueTextColor(Color.BLACK);
+        secondPieDataSet.setValueTextSize(16f);
+
+        PieData secondPieData = new PieData(secondPieDataSet);
+
+        twodaysago.getDescription().setEnabled(false);
+        twodaysago.setCenterText(secondDate);
+
+        twodaysago.setData(secondPieData);
+        twodaysago.invalidate();
+
+        //THIRD DAY
+        ArrayList<PieEntry> thirdDay = new ArrayList<>();
+        thirdDay.add(new PieEntry(thirdSanitized, "Santized"));
+        thirdDay.add(new PieEntry(thirdNotSanitized, "Failed to sanitize"));
+
+        PieDataSet thirdPieDataSet = new PieDataSet(thirdDay, "");
+        thirdPieDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        thirdPieDataSet.setValueTextColor(Color.BLACK);
+        thirdPieDataSet.setValueTextSize(16f);
+
+        PieData thirdPieData = new PieData(thirdPieDataSet);
+
+        threedaysago.getDescription().setEnabled(false);
+        threedaysago.setCenterText(thirdDate);
+
+        threedaysago.setData(thirdPieData);
+        threedaysago.invalidate();
+
+
+
+        //FOURTH DAY
+        ArrayList<PieEntry> fourthDay = new ArrayList<>();
+        fourthDay.add(new PieEntry(fourthSanitized, "Santized"));
+        fourthDay.add(new PieEntry(fourthNotSanitized, "Failed to sanitize"));
+
+        PieDataSet fourthPieDataSet = new PieDataSet(fourthDay, "");
+        fourthPieDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        fourthPieDataSet.setValueTextColor(Color.BLACK);
+        fourthPieDataSet.setValueTextSize(16f);
+
+        PieData fourthPieData = new PieData(fourthPieDataSet);
+
+        fourdaysago.getDescription().setEnabled(false);
+        fourdaysago.setCenterText(fourthDate);
+
+        fourdaysago.setData(fourthPieData);
+        fourdaysago.invalidate();
+
+        //FIFTH DAY
+        ArrayList<PieEntry> fifthhDay = new ArrayList<>();
+        fifthhDay.add(new PieEntry(fifthSanitized, "Santized"));
+        fifthhDay.add(new PieEntry(fifthNotSanitized, "Failed to sanitize"));
+
+        PieDataSet fifthPieDataSet = new PieDataSet(fifthhDay, "");
+        fifthPieDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        fifthPieDataSet.setValueTextColor(Color.BLACK);
+        fifthPieDataSet.setValueTextSize(16f);
+
+        PieData fifthPieData = new PieData(fifthPieDataSet);
+
+        fivedaysago.getDescription().setEnabled(false);
+        fivedaysago.setCenterText(fifthDate);
+
+        fivedaysago.setData(fifthPieData);
+        fivedaysago.invalidate();
+
+        //SIXTH DAY
+        ArrayList<PieEntry> sixthDay = new ArrayList<>();
+        sixthDay.add(new PieEntry(sixthSanitized, "Santized"));
+        sixthDay.add(new PieEntry(sixtNotSanitized, "Failed to sanitize"));
+
+        PieDataSet sixthPieDataSet = new PieDataSet(sixthDay, "");
+        sixthPieDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        sixthPieDataSet.setValueTextColor(Color.BLACK);
+        sixthPieDataSet.setValueTextSize(16f);
+
+        PieData sixthPieData = new PieData(sixthPieDataSet);
+
+        sixdaysago.getDescription().setEnabled(false);
+        sixdaysago.setCenterText(sixthDate);
+
+        sixdaysago.setData(sixthPieData);
+        sixdaysago.invalidate();
+
+        //SEVENTH DAY
+        ArrayList<PieEntry> seventhDay = new ArrayList<>();
+        seventhDay.add(new PieEntry(seventhSanitized, "Santized"));
+        seventhDay.add(new PieEntry(seventhNotSanitized, "Failed to sanitize"));
+
+        PieDataSet seventhPieDataSet = new PieDataSet(seventhDay, "");
+        seventhPieDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        seventhPieDataSet.setValueTextColor(Color.BLACK);
+        seventhPieDataSet.setValueTextSize(16f);
+
+        PieData seventhPiedata = new PieData(seventhPieDataSet);
+
+        sevendaysago.getDescription().setEnabled(false);
+        sevendaysago.setCenterText(seventhDate);
+
+        sevendaysago.setData(seventhPiedata);
+        sevendaysago.invalidate();
+
+
     }
 
     public class SevenDaysBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent){
-            sevenDaysOverviewItems = bService.returnLastSevenDaysOverview();
-            updateSevenPieCharts(sevenDaysOverviewItems);
+            averageBehaviourItems = bService.returnLastSevenDaysOverview();
+            updateSevenPieCharts(averageBehaviourItems);
         }
     }
 
@@ -98,6 +259,8 @@ public class SevendaysOverviewActivity extends AppCompatActivity {
                 // We've bound to LocalService, cast the IBinder and get LocalService instance
                 bService = ((BackgroundService.LocalBinder)service).getService();
                 bound = true;
+
+                bService.getLastSevenDaysOverview();
             }
 
             @Override

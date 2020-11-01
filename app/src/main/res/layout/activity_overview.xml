@@ -13,12 +13,14 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="40dp"
+        android:layout_marginBottom="600dp"
         android:fontFamily="sans-serif-medium"
         android:includeFontPadding="false"
         android:text="@string/daily_overview"
         android:textColor="#00796B"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/sevenDaysOverviewButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -116,6 +118,23 @@
         app:layout_constraintVertical_bias="0.995" />
 
     <Button
+        android:id="@+id/sevenDaysOverviewButton"
+        android:layout_width="133dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="76dp"
+        android:background="#80CBC4"
+        android:shadowColor="#B2DFDB"
+        android:text="@string/seven_days_overview_navigation"
+        android:textAllCaps="false"
+        android:textColor="#00796B"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/overviewPieChart"
+        app:layout_constraintVertical_bias="0.2" />
+
+    <Button
         android:id="@+id/goBackB"
         android:layout_width="85dp"
         android:layout_height="38dp"
@@ -136,14 +155,16 @@
         android:layout_height="38dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="20dp"
         android:background="#80CBC4"
         android:shadowColor="#B2DFDB"
         android:text="@string/exit"
         android:textAllCaps="false"
         android:textColor="#00796B"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/sevenDaysOverviewButton" />
 
     <TextView
         android:id="@+id/inputGreenHotspotTV"

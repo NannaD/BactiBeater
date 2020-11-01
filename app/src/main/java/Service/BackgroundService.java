@@ -10,14 +10,14 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import APIConnection.Callback;
+import APIConnection.FirebaseAPIAverageBehaviorConnection;
 import APIConnection.FirebaseAPIBehaviourConnection;
 import APIConnection.FirebaseAPISanitizeItemConnection;
 import Items.BehaviourItem;
 import Items.SanitizeItem;
-import Items.SevenDaysOverviewItem;
+import Items.AverageBehaviourItem;
 
 public class BackgroundService extends Service {
     private static final String LOG = "MyBackgroundService";
@@ -25,20 +25,22 @@ public class BackgroundService extends Service {
     private static final String LOCATIONS = "locations";
     private static final String LOCATIONSPECIFICDATA = "locationSpecificData";
     private static final String BROADCASTSEVENDAYS = "SevenDaysItems";
-
-    private List<String> locationNames;
-    private List<BehaviourItem> behaviourData;
-    private List<SanitizeItem> sanitizeItems;
-    private ArrayList<SanitizeItem> locationSpecificSanitizeItems = new ArrayList<>();
-    private List<SevenDaysOverviewItem> sevenDaysOverviewItems = new ArrayList<>();
-
-    private int visitorsSanitized = 0;
-    private int visitorsDidNotSanitize = 0;
     public String uName;
     public String pWord;
 
+    private int visitorsSanitized = 0;
+    private int visitorsDidNotSanitize = 0;
+
+    private List<String> locationNames = new ArrayList<>();
+    private List<BehaviourItem> behaviourData = new ArrayList<>();
+    private List<SanitizeItem> sanitizeItems = new ArrayList<>();
+    private ArrayList<SanitizeItem> locationSpecificSanitizeItems = new ArrayList<>();
+    private List<AverageBehaviourItem> averageBehaviourItems = new ArrayList<>();
+    private List<AverageBehaviourItem> lastSevenAverageBehaviourItems = new ArrayList<>();
+
     private FirebaseAPIBehaviourConnection firebaseAPIBehaviourConnection = new FirebaseAPIBehaviourConnection(BackgroundService.this);
     private FirebaseAPISanitizeItemConnection firebaseAPISanitizeItemConnection = new FirebaseAPISanitizeItemConnection(BackgroundService.this);
+    private FirebaseAPIAverageBehaviorConnection firebaseAPIAverageBehaviorConnection = new FirebaseAPIAverageBehaviorConnection(BackgroundService.this);
 
 
     public class LocalBinder extends Binder {
@@ -82,8 +84,20 @@ public class BackgroundService extends Service {
     }
 
     public void getLastSevenDaysOverview(){
-        //SKAL LAVES I APIET FOR AT KUNNE SE DE SUMMEREDE SEVENDAYSITEMS
-        broadcastSevenDaysItems();
+          firebaseAPIAverageBehaviorConnection.getSevenDaysOverview(uName, pWord, new FirebaseAPIAverageBehaviorConnection.VolleyResponseListener() {
+            @Override
+            public void onError(String message) { }
+
+            @Override
+            public void onResponse(List<AverageBehaviourItem> response) {
+                averageBehaviourItems = response;
+
+                for (int i = 0; i < averageBehaviourItems.size(); i++){
+                    lastSevenAverageBehaviourItems.add(averageBehaviourItems.get(averageBehaviourItems.size()-1-i));
+                }
+                broadcastSevenDaysItems();
+            }
+        });
     }
 
     //Gets the data as soon as an user has signed in, and this data will be used throughout this userscenario
@@ -163,7 +177,7 @@ public class BackgroundService extends Service {
         return visitorsDidNotSanitize;
     }
 
-    public List<SevenDaysOverviewItem> returnLastSevenDaysOverview(){ return sevenDaysOverviewItems;}
+    public List<AverageBehaviourItem> returnLastSevenDaysOverview(){ return lastSevenAverageBehaviourItems;}
 
     @Override
     public void onDestroy() {

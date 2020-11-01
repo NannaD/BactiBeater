@@ -25,4 +25,6 @@
     <string name="procentage">Procentage</string>
     <string name="number_of_visitors">Visitors</string>
     <string name="visitors_sanitized">Sanitations</string>
+    <string name="seven_days_overview_navigation">See 7 days overview</string>
+
 </resources>

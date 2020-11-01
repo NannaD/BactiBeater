@@ -28,7 +28,7 @@ import Items.SanitizeItem;
 import Service.BackgroundService;
 
 public class FirebaseAPIAverageBehaviorConnection extends AppCompatActivity {
-    private String urlSanitizeItem = "https://bactibeater.azurewebsites.net/api/AverageBehaviourModel";
+    private String urlAverageBehaviour = "https://bactibeater.azurewebsites.net/api/AverageBehaviourModel";
     private String LOG = "FIREBASE_API_AVERAGEBEHAVIOR_ITEM";
     private Context context;
     private RequestQueue mQueue;
@@ -52,7 +52,7 @@ public class FirebaseAPIAverageBehaviorConnection extends AppCompatActivity {
         password = _password;
         userName = _username;
 
-        JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, urlSanitizeItem, null, new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, urlAverageBehaviour, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray responses) {
                 List<AverageBehaviourItem> averageBehaviourItems = new ArrayList<>();

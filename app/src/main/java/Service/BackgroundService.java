@@ -11,10 +11,11 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import APIConnection.APISignInConnection;
 import APIConnection.Callback;
-import APIConnection.FirebaseAPIAverageBehaviorConnection;
-import APIConnection.FirebaseAPIBehaviourConnection;
-import APIConnection.FirebaseAPISanitizeItemConnection;
+import APIConnection.APIAverageBehaviorConnection;
+import APIConnection.APIBehaviourConnection;
+import APIConnection.APISanitizeItemConnection;
 import Items.BehaviourItem;
 import Items.SanitizeItem;
 import Items.AverageBehaviourItem;
@@ -38,9 +39,10 @@ public class BackgroundService extends Service {
     private List<AverageBehaviourItem> averageBehaviourItems = new ArrayList<>();
     private List<AverageBehaviourItem> lastSevenAverageBehaviourItems = new ArrayList<>();
 
-    private FirebaseAPIBehaviourConnection firebaseAPIBehaviourConnection = new FirebaseAPIBehaviourConnection(BackgroundService.this);
-    private FirebaseAPISanitizeItemConnection firebaseAPISanitizeItemConnection = new FirebaseAPISanitizeItemConnection(BackgroundService.this);
-    private FirebaseAPIAverageBehaviorConnection firebaseAPIAverageBehaviorConnection = new FirebaseAPIAverageBehaviorConnection(BackgroundService.this);
+    private APIBehaviourConnection APIBehaviourConnection = new APIBehaviourConnection(BackgroundService.this);
+    private APISanitizeItemConnection APISanitizeItemConnection = new APISanitizeItemConnection(BackgroundService.this);
+    private APIAverageBehaviorConnection APIAverageBehaviorConnection = new APIAverageBehaviorConnection(BackgroundService.this);
+    private APISignInConnection apiSignInConnection = new APISignInConnection(BackgroundService.this);
 
 
     public class LocalBinder extends Binder {
@@ -84,7 +86,7 @@ public class BackgroundService extends Service {
     }
 
     public void getLastSevenDaysOverview(){
-          firebaseAPIAverageBehaviorConnection.getSevenDaysOverview(uName, pWord, new FirebaseAPIAverageBehaviorConnection.VolleyResponseListener() {
+          APIAverageBehaviorConnection.getSevenDaysOverview(uName, pWord, new APIAverageBehaviorConnection.VolleyResponseListener() {
             @Override
             public void onError(String message) { }
 
@@ -102,13 +104,15 @@ public class BackgroundService extends Service {
 
     //Gets the data as soon as an user has signed in, and this data will be used throughout this userscenario
     public void getAPIData(){
-        firebaseAPIBehaviourConnection.getBehaviours(new FirebaseAPIBehaviourConnection.VolleyResponseListener() {
+        APIBehaviourConnection.getBehaviours(uName, pWord, new APIBehaviourConnection.VolleyResponseListener() {
             @Override
             public void onError(String message) { }
 
             @Override
             public void onResponse(List<BehaviourItem> response) {
                 behaviourData = response;
+                visitorsSanitized = 0;
+                visitorsDidNotSanitize = 0;
 
                 for(int i = 0; i < response.size(); i++) {
                     if (response.get(i).isDidSanitize() == true) {
@@ -123,17 +127,17 @@ public class BackgroundService extends Service {
     }
 
     public void SignIn(String userName, String password, Callback callback) {
-        firebaseAPIBehaviourConnection.userName = userName;
-        firebaseAPIBehaviourConnection.password = password;
+        apiSignInConnection.userName = userName;
+        apiSignInConnection.password = password;
 
         uName = userName;
         pWord = password;
 
-        firebaseAPIBehaviourConnection.isSignedIn(callback);
+        apiSignInConnection.isSignedIn(callback);
     }
 
     public void getLocationAndDateSpecificData(final String location) {
-        firebaseAPISanitizeItemConnection.getLocationAndDateSpecificData(uName, pWord, new FirebaseAPISanitizeItemConnection.VolleyResponseListener() {
+        APISanitizeItemConnection.getLocationAndDateSpecificData(uName, pWord, new APISanitizeItemConnection.VolleyResponseListener() {
             @Override
             public void onError(String message) {
 

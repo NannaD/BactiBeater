@@ -24,10 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 import Items.AverageBehaviourItem;
-import Items.SanitizeItem;
-import Service.BackgroundService;
 
-public class FirebaseAPIAverageBehaviorConnection extends AppCompatActivity {
+public class APIAverageBehaviorConnection extends AppCompatActivity {
     private String urlAverageBehaviour = "https://bactibeater.azurewebsites.net/api/AverageBehaviourModel";
     private String LOG = "FIREBASE_API_AVERAGEBEHAVIOR_ITEM";
     private Context context;
@@ -35,7 +33,7 @@ public class FirebaseAPIAverageBehaviorConnection extends AppCompatActivity {
     public String userName;
     public String password;
 
-    public FirebaseAPIAverageBehaviorConnection(Context context) {
+    public APIAverageBehaviorConnection(Context context) {
         this.context = context;
     }
 
@@ -45,7 +43,7 @@ public class FirebaseAPIAverageBehaviorConnection extends AppCompatActivity {
         void onResponse(List<AverageBehaviourItem> response);
     }
 
-    public void getSevenDaysOverview(String _password, String _username, final FirebaseAPIAverageBehaviorConnection.VolleyResponseListener listener){
+    public void getSevenDaysOverview(String _password, String _username, final APIAverageBehaviorConnection.VolleyResponseListener listener){
         if (mQueue == null) {
             mQueue = Volley.newRequestQueue(context);
         }

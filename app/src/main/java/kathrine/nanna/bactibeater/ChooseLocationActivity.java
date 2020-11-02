@@ -16,6 +16,7 @@ import android.os.IBinder;
 import android.view.View;
 import android.widget.Button;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,24 +39,30 @@ public class ChooseLocationActivity extends AppCompatActivity implements MyAdapt
 
     //Strings
     private static final String LOCATIONNAME = "locationName";
+    private static final String LOCATIONNAMESROTATION = "locationNames";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_location);
 
-        //Adding to list to test recyclerview
-        locationNames = new ArrayList<>();
-        //locationItems.add("Stue 1");
-        //locationItems.add("Stue 2");
-        //locationItems.add("Stue 3");
-
         //UI and widgets
         recyclerView = findViewById(R.id.locationRV);
+        recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
         exitB = findViewById(R.id.exitB);
+
+        //saving information during rotation
+        if (savedInstanceState != null) {
+            locationNames = (List<String>) savedInstanceState.getSerializable(LOCATIONNAMESROTATION);
+            if (myAdapter != null){
+                myAdapter.updateRecyclerview(locationNames);
+            }
+        } else {
+            locationNames = new ArrayList<>();
+        }
 
         //Button functionality
         exitB.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +114,6 @@ public class ChooseLocationActivity extends AppCompatActivity implements MyAdapt
     //Bind to Background service, learned how to from https://developer.android.com/guide/components/bound-services
     void bindToService() {
         Intent intent = new Intent(this, BackgroundService.class);
-        startService(intent);
         bindService(intent, connection, Context.BIND_AUTO_CREATE);
         bound = true;
     }
@@ -121,21 +127,15 @@ public class ChooseLocationActivity extends AppCompatActivity implements MyAdapt
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        unBindFromService();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        finish();
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(LOCATIONNAMESROTATION, (Serializable)locationNames);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        finish();
+        unBindFromService();
     }
 
     @Override

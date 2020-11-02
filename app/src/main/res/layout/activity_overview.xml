@@ -7,7 +7,7 @@
     tools:context=".OverviewActivity">
 
     <TextView
-        android:id="@+id/signInTV"
+        android:id="@+id/dailyOverviewTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -37,7 +37,7 @@
         android:textColor="#26A69A"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/currentDateTextTV"
-        app:layout_constraintTop_toBottomOf="@+id/signInTV" />
+        app:layout_constraintTop_toBottomOf="@+id/dailyOverviewTV" />
 
     <TextView
         android:id="@+id/greenHotspotTV"
@@ -81,7 +81,7 @@
         android:textColor="#26A69A"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signInTV" />
+        app:layout_constraintTop_toBottomOf="@+id/dailyOverviewTV" />
 
     <TextView
         android:id="@+id/redHotspotTV"

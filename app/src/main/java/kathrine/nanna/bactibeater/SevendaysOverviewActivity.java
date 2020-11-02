@@ -94,7 +94,7 @@ public class SevendaysOverviewActivity extends AppCompatActivity {
         thirdDate = averageBehaviourItems.get(2).getDate();
 
 
-        fourthSanitized = averageBehaviourItems.get(3).getSanitations();
+       /* fourthSanitized = averageBehaviourItems.get(3).getSanitations();
         fourthNotSanitized = averageBehaviourItems.get(3).getLocationChanges() - averageBehaviourItems.get(3).getSanitations();
         fourthDate = averageBehaviourItems.get(3).getDate();
 
@@ -108,7 +108,7 @@ public class SevendaysOverviewActivity extends AppCompatActivity {
 
         seventhSanitized = averageBehaviourItems.get(6).getSanitations();
         seventhNotSanitized = averageBehaviourItems.get(6).getLocationChanges() - averageBehaviourItems.get(6).getSanitations();
-        seventhDate = averageBehaviourItems.get(6).getDate();
+        seventhDate = averageBehaviourItems.get(6).getDate(); */
 
         //FIRST DAY
         ArrayList<PieEntry> firstDay = new ArrayList<>();
@@ -165,7 +165,7 @@ public class SevendaysOverviewActivity extends AppCompatActivity {
         threedaysago.invalidate();
 
 
-
+/*
         //FOURTH DAY
         ArrayList<PieEntry> fourthDay = new ArrayList<>();
         fourthDay.add(new PieEntry(fourthSanitized, "Santized"));
@@ -236,7 +236,7 @@ public class SevendaysOverviewActivity extends AppCompatActivity {
         sevendaysago.setCenterText(seventhDate);
 
         sevendaysago.setData(seventhPiedata);
-        sevendaysago.invalidate();
+        sevendaysago.invalidate(); */
 
 
     }
@@ -279,7 +279,6 @@ public class SevendaysOverviewActivity extends AppCompatActivity {
     //Bind to Background service, learned how to from https://developer.android.com/guide/components/bound-services
     void bindToService() {
         Intent intent = new Intent(this, BackgroundService.class);
-        startService(intent);
         bindService(intent, connection, Context.BIND_AUTO_CREATE);
         bound = true;
     }
@@ -293,21 +292,9 @@ public class SevendaysOverviewActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        unBindFromService();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        finish();
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
-        finish();
+        unBindFromService();
     }
 
     @Override

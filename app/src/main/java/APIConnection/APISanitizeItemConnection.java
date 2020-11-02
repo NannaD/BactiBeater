@@ -1,15 +1,8 @@
 package APIConnection;
 
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.Bundle;
-import android.os.IBinder;
 import android.util.Base64;
 import android.util.Log;
-
-import androidx.annotation.Nullable;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -28,12 +21,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Items.BehaviourItem;
 import Items.SanitizeItem;
-import Service.BackgroundService;
-import kathrine.nanna.bactibeater.SignInActivity;
 
-public class FirebaseAPISanitizeItemConnection {
+public class APISanitizeItemConnection {
 
     private String urlSanitizeItem = "https://bactibeater.azurewebsites.net/api/SanitizeItemModel";
     private String LOG = "FIREBASE_API_SANITIZE_ITEM";
@@ -42,7 +32,7 @@ public class FirebaseAPISanitizeItemConnection {
     public String userName;
     public String password;
 
-    public FirebaseAPISanitizeItemConnection(Context context) {
+    public APISanitizeItemConnection(Context context) {
         this.context = context;
     }
 
@@ -52,7 +42,7 @@ public class FirebaseAPISanitizeItemConnection {
         void onResponse(List<SanitizeItem> response);
     }
 
-    public void getLocationAndDateSpecificData(String _password, String _username, final FirebaseAPISanitizeItemConnection.VolleyResponseListener listener){
+    public void getLocationAndDateSpecificData(String _password, String _username, final APISanitizeItemConnection.VolleyResponseListener listener){
         if (mQueue == null) {
             mQueue = Volley.newRequestQueue(context);
         }

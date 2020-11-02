@@ -18,7 +18,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.appcompat.app.AlertDialog;
 
 import APIConnection.Callback;
-import APIConnection.FirebaseAPIBehaviourConnection;
 import Service.BackgroundService;
 
 public class SignInActivity extends AppCompatActivity {
@@ -155,21 +154,9 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        unBindFromService();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        finish();
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
-        finish();
+        unBindFromService();
     }
 
     @Override

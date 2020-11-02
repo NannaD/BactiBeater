@@ -66,4 +66,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
     public interface onLocationClickListener {
         void onLocationClickListener(int position);
     }
+
+    public void updateRecyclerview(List<String> updatedLocationList)
+    {
+        locationItems.clear();
+        locationItems.addAll(updatedLocationList);
+        notifyDataSetChanged();
+    }
 }

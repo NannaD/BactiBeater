@@ -17,6 +17,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import RecyclerView.MySpecificLocationAdapter;
 
@@ -31,9 +33,10 @@ public class SpecificLocationActivity extends AppCompatActivity{
     private BackgroundService bService;
     private boolean bound;
     private static final String LOCATIONSPECIFICDATA = "locationSpecificData";
+    private static final String SANITIZEITEMSROTATION = "SanitizeItemsRotation";
 
     //TextViews, Lists, etc.
-    private List<SanitizeItem> specificLocationItems;
+    private List<SanitizeItem> sanitizeItems;
 
     //Buttons
     private Button goBackB;
@@ -57,6 +60,16 @@ public class SpecificLocationActivity extends AppCompatActivity{
         goBackB = findViewById(R.id.goBackB);
         exitB = findViewById(R.id.exitB);
         specificLocationTV = findViewById(R.id.specificLocationTV);
+
+        //saving information during rotation
+        if (savedInstanceState != null) {
+            sanitizeItems = (List<SanitizeItem>) savedInstanceState.getSerializable(SANITIZEITEMSROTATION);
+            if (mySpecificLocationAdapter != null){
+                mySpecificLocationAdapter.updateRecyclerview(sanitizeItems);
+            }
+        } else {
+            sanitizeItems = new ArrayList<>();
+        }
 
         //Button functionality
         goBackB.setOnClickListener(new View.OnClickListener() {
@@ -83,9 +96,9 @@ public class SpecificLocationActivity extends AppCompatActivity{
     public class LocationsBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent){
-            specificLocationItems = bService.returnLocationSpecificData();
+            sanitizeItems = bService.returnLocationSpecificData();
 
-            mySpecificLocationAdapter = new MySpecificLocationAdapter(specificLocationItems, SpecificLocationActivity.this);
+            mySpecificLocationAdapter = new MySpecificLocationAdapter(sanitizeItems, SpecificLocationActivity.this);
             recyclerView.setAdapter(mySpecificLocationAdapter);
             mySpecificLocationAdapter.notifyDataSetChanged();
         }
@@ -120,7 +133,6 @@ public class SpecificLocationActivity extends AppCompatActivity{
     //Bind to Background service, learned how to from https://developer.android.com/guide/components/bound-services
     void bindToService() {
         Intent intent = new Intent(this, BackgroundService.class);
-        startService(intent);
         bindService(intent, connection, Context.BIND_AUTO_CREATE);
         bound = true;
     }
@@ -134,21 +146,15 @@ public class SpecificLocationActivity extends AppCompatActivity{
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        unBindFromService();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        finish();
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(SANITIZEITEMSROTATION, (Serializable)sanitizeItems);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        finish();
+        unBindFromService();
     }
 
     @Override

@@ -37,7 +37,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/signInTV"
+        android:id="@+id/dailyOverviewTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="264dp"
@@ -121,7 +121,7 @@
         android:layout_marginBottom="36dp"
         android:outlineSpotShadowColor="#FFFFFF"
         android:src="@mipmap/ic_launcher"
-        app:layout_constraintBottom_toTopOf="@+id/signInTV"
+        app:layout_constraintBottom_toTopOf="@+id/dailyOverviewTV"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

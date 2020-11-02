@@ -30,12 +30,11 @@ import java.util.Map;
 import Items.BehaviourItem;
 import Items.SanitizeItem;
 
-public class FirebaseAPIBehaviourConnection extends AppCompatActivity {
+public class APIBehaviourConnection extends AppCompatActivity {
 
     private String LOG = "FIREBASE_API_BEHAVIOR_ITEM";
     private RequestQueue mQueue;
     private String urlAPIBehaviour = "https://bactibeater.azurewebsites.net/api/BehaviourModels";
-    private String urlAPISignIn = "https://bactibeater.azurewebsites.net/api/BehaviourModels/TestSignIn";
     private Context context;
     public String userName;
     public String password;
@@ -46,19 +45,16 @@ public class FirebaseAPIBehaviourConnection extends AppCompatActivity {
         void onResponse(List<BehaviourItem> response);
     }
 
-
-    public FirebaseAPIBehaviourConnection(Context context) {
+    public APIBehaviourConnection(Context context) {
         this.context = context;
     }
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     //Sending request and getting the behaviouritem
-    public void getBehaviours(final VolleyResponseListener listener)
+    public void getBehaviours(String _userName, String _password, final VolleyResponseListener listener)
     {
+        userName = _userName;
+        password = _password;
+
         if (mQueue == null) {
             mQueue = Volley.newRequestQueue(context);
         }
@@ -106,40 +102,5 @@ public class FirebaseAPIBehaviourConnection extends AppCompatActivity {
         mQueue.add(jsonRequest);
     }
 
-    public void isSignedIn(final Callback callback)
-    {
-        if (mQueue == null) {
-            mQueue = Volley.newRequestQueue(context);
-        }
-        final StringRequest stringRequest = new StringRequest(Request.Method.GET, urlAPISignIn, new Response.Listener<String>(){
-            @Override
-            public void onResponse(String response) {
-                try {
-                    if (Boolean.parseBoolean(response) == true)
-                    {
-                        callback.onSuccess(response);
-                    }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("FirebaseAPI", "JsonRequest did not work. " + error.getMessage());
-            }
-        })  {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<String, String>();
-                headers.put("Authorization", "Basic "+ Base64.encodeToString((userName + ":" + password).getBytes(), Base64.DEFAULT));
-                return headers;
-            }
-        };
-
-        Log.d(LOG, "Request sent");
-        mQueue.add(stringRequest);
-    }
 }

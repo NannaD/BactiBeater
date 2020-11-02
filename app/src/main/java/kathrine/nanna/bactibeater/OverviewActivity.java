@@ -22,10 +22,12 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import Service.BackgroundService;
 
@@ -42,8 +44,12 @@ public class OverviewActivity extends AppCompatActivity {
 
     private BackgroundService bService;
     private boolean bound;
+    int didSanitize;
+    int didNotSanitize;
 
     private static final String OVERVIEWCHARTDATA = "overviewPieData";
+    private static final String DIDSANITIZE = "didSanitize";
+    private static final String DIDNOTSANITIZE = "didNotSanitize";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +64,13 @@ public class OverviewActivity extends AppCompatActivity {
 
         overviewPieChart = findViewById(R.id.overviewPieChart);
         dateTV = findViewById(R.id.currentDateTV);
+
+        //saving information during rotation
+        if (savedInstanceState != null) {
+            didSanitize = savedInstanceState.getInt(DIDSANITIZE);
+            didNotSanitize = savedInstanceState.getInt(DIDNOTSANITIZE);
+            updateOverviewPieChart(didSanitize, didNotSanitize);
+        }
 
         //Setting the date in overview activity
         dateTV.setText(SimpleDateFormat.getDateInstance().format(Calendar.getInstance().getTime()));
@@ -130,8 +143,8 @@ public class OverviewActivity extends AppCompatActivity {
     public class ChartDataBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent){
-            int didSanitize = bService.returnSanitizedDataForOverview();
-            int didNotSanitize = bService.returnDidNotSanitizeDataForOverview();
+            didSanitize = bService.returnSanitizedDataForOverview();
+            didNotSanitize = bService.returnDidNotSanitizeDataForOverview();
             updateOverviewPieChart(didSanitize, didNotSanitize);
         }
     }
@@ -163,9 +176,15 @@ public class OverviewActivity extends AppCompatActivity {
     //Bind to Background service, learned how to from https://developer.android.com/guide/components/bound-services
     void bindToService() {
         Intent intent = new Intent(this, BackgroundService.class);
-        startService(intent);
         bindService(intent, connection, Context.BIND_AUTO_CREATE);
         bound = true;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(DIDSANITIZE, didSanitize);
+        outState.putSerializable(DIDNOTSANITIZE, didNotSanitize);
     }
 
     void unBindFromService() {
@@ -177,21 +196,9 @@ public class OverviewActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        unBindFromService();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        finish();
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
-        finish();
+        unBindFromService();
     }
 
     @Override

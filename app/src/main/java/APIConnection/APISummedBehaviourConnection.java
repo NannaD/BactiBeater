@@ -23,53 +23,53 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Items.AverageBehaviourItem;
+import Items.SummedBehavioursItem;
+import Items.SummedSanitizersItem;
 
-public class APIAverageBehaviorConnection extends AppCompatActivity {
-    private String urlAverageBehaviour = "https://bactibeater.azurewebsites.net/api/AverageBehaviourModel";
-    private String LOG = "FIREBASE_API_AVERAGEBEHAVIOR_ITEM";
+public class APISummedBehaviourConnection extends AppCompatActivity {
+    private static final String urlSummedBehaviours = "https://bactibeater.azurewebsites.net/api/SummedBehaviourModels";
+    private static final String LOG = "API_SUMMEDBEHAVIOURS";
     private Context context;
     private RequestQueue mQueue;
-    public String username;
-    public String password;
+    private String username;
+    private String password;
 
-    public APIAverageBehaviorConnection(Context context) {
+    public APISummedBehaviourConnection(Context context) {
         this.context = context;
     }
 
-    //interface used in the service
     public interface VolleyResponseListener{
         void onError(String message);
-        void onResponse(List<AverageBehaviourItem> response);
+        void onResponse(List<SummedBehavioursItem> response);
     }
 
-    public void getSevenDaysOverview(String _password, String _username, final APIAverageBehaviorConnection.VolleyResponseListener listener){
+    public void getSummedBehaviours(String _username, String _password, final APISummedBehaviourConnection.VolleyResponseListener listener){
         if (mQueue == null) {
             mQueue = Volley.newRequestQueue(context);
         }
         password = _password;
         username = _username;
 
-        JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, urlAverageBehaviour, null, new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, urlSummedBehaviours, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray responses) {
-                List<AverageBehaviourItem> averageBehaviourItems = new ArrayList<>();
+                List<SummedBehavioursItem> summedBehavioursItems = new ArrayList<>();
 
                 for (int i = 0; i < responses.length(); i++){
                     try {
-                        JSONObject averageBehaviourItemJSON = responses.getJSONObject(i);
-                        String date = averageBehaviourItemJSON.getString("date");
-                        int locationChanges = averageBehaviourItemJSON.getInt("locationChanges");
-                        int sanitations = averageBehaviourItemJSON.getInt("sanitations");
+                        JSONObject summedBehavioursItemJSON = responses.getJSONObject(i);
+                        String date = summedBehavioursItemJSON.getString("date");
+                        int locationChangesDidSanitize = summedBehavioursItemJSON.getInt("locationChangesDidSantizie");
+                        int locationChangesDidNotSanitize = summedBehavioursItemJSON.getInt("locationChangesDidNotSantizie");
 
-                        AverageBehaviourItem averageBehaviourItem = new AverageBehaviourItem(locationChanges, sanitations, date);
-                        averageBehaviourItems.add(averageBehaviourItem);
+                        SummedBehavioursItem summedBehavioursItem = new SummedBehavioursItem(locationChangesDidSanitize, locationChangesDidNotSanitize, date);
+                        summedBehavioursItems.add(summedBehavioursItem);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-                listener.onResponse(averageBehaviourItems);
+                listener.onResponse(summedBehavioursItems);
             }
         }, new Response.ErrorListener() {
             @Override

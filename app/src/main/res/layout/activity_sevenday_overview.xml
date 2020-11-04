@@ -15,18 +15,54 @@
         android:layout_marginTop="28dp"
         android:fontFamily="sans-serif-medium"
         android:includeFontPadding="false"
-        android:text="@string/daily_overview"
+        android:text="@string/last_seven_days_overview"
         android:textColor="#00796B"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
-        android:id="@+id/scrollView2"
+    <TextView
+        android:id="@+id/abTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="170dp"
+        android:text="@string/data_average_behaviour_last_seven_days"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dailyOverviewTV"
+        app:layout_constraintVertical_bias="0.708"></TextView>
+
+    <TextView
+        android:id="@+id/sbTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/data_summed_behaviour_last_seven_days"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.105"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView1"
+        app:layout_constraintVertical_bias="0.774"></TextView>
+
+    <TextView
+        android:id="@+id/ssTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/data_summed_sanitations_last_seven_days"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.132"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2"
+        app:layout_constraintVertical_bias="0.774"></TextView>
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -39,39 +75,149 @@
                 android:layout_height="wrap_content">
 
                 <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/overviewPieChart1"
-                    android:layout_width="350dp"
-                    android:layout_height="350dp" />
+                    android:id="@+id/ABPieChart1"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
 
                 <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/overviewPieChart2"
-                    android:layout_width="350dp"
-                    android:layout_height="350dp" />
+                    android:id="@+id/ABPieChart2"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
 
                 <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/overviewPieChart3"
-                    android:layout_width="350dp"
-                    android:layout_height="350dp" />
+                    android:id="@+id/ABPieChart3"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
 
                 <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/overviewPieChart4"
-                    android:layout_width="350dp"
-                    android:layout_height="350dp" />
+                    android:id="@+id/ABPieChart4"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
 
                 <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/overviewPieChart5"
-                    android:layout_width="350dp"
-                    android:layout_height="350dp" />
+                    android:id="@+id/ABPieChart5"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
 
                 <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/overviewPieChart6"
-                    android:layout_width="350dp"
-                    android:layout_height="350dp" />
+                    android:id="@+id/ABPieChart6"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
 
                 <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/overviewPieChart7"
-                    android:layout_width="350dp"
-                    android:layout_height="350dp" />
+                    android:id="@+id/ABPieChart7"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="300dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/SBPieChart1"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/SBPieChart2"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/SBPieChart3"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/SBPieChart4"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/SBPieChart5"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/SBPieChart6"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/SBPieChart7"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="500dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/SSPieChart1"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/SSPieChart2"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/SSPieChart3"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/SSPieChart4"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/SSPieChart5"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/SSPieChart6"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/SSPieChart7"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
 
             </LinearLayout>
         </HorizontalScrollView>
@@ -92,7 +238,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scrollView2"
-        app:layout_constraintVertical_bias="0.02" />
+        app:layout_constraintVertical_bias="0.853" />
 
     <Button
         android:id="@+id/exitB"
@@ -108,8 +254,8 @@
         android:textColor="#00796B"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.058"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/goBackB"
         app:layout_constraintTop_toBottomOf="@+id/scrollView2"
-        app:layout_constraintVertical_bias="0.02" />
+        app:layout_constraintVertical_bias="0.853" />
 </androidx.constraintlayout.widget.ConstraintLayout>

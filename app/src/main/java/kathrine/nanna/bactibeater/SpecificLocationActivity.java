@@ -119,7 +119,7 @@ public class SpecificLocationActivity extends AppCompatActivity{
                 String locationName = intent.getStringExtra("locationName");
 
                 specificLocationTV.setText(locationName);
-                bService.getLocationAndDateSpecificData(locationName);
+                bService.getLocationSpecificSanitizeItems(locationName);
             }
 
             @Override
@@ -167,6 +167,4 @@ public class SpecificLocationActivity extends AppCompatActivity{
         //Set up broadcastmanagers
         LocalBroadcastManager.getInstance(this).registerReceiver(new SpecificLocationActivity.LocationsBroadcastReceiver(), new IntentFilter(LOCATIONSPECIFICDATA));
     }
-
-
 }

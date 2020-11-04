@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import APIConnection.APISignInConnection;
+import APIConnection.APISummedBehaviourConnection;
+import APIConnection.APISummedSanitizerConnection;
 import APIConnection.Callback;
 import APIConnection.APIAverageBehaviorConnection;
 import APIConnection.APIBehaviourConnection;
@@ -19,29 +21,41 @@ import APIConnection.APISanitizeItemConnection;
 import Items.BehaviourItem;
 import Items.SanitizeItem;
 import Items.AverageBehaviourItem;
+import Items.SummedBehavioursItem;
+import Items.SummedSanitizersItem;
 
 public class BackgroundService extends Service {
+
     private static final String LOG = "MyBackgroundService";
+
+    //For broadcasting
     private static final String OVERVIEWCHARTDATA = "overviewPieData";
-    private static final String LOCATIONS = "locations";
     private static final String LOCATIONSPECIFICDATA = "locationSpecificData";
-    private static final String BROADCASTSEVENDAYS = "SevenDaysItems";
+    private static final String BROADCASTSEVENDAYSAB = "SevenDaysItemsAB";
+    private static final String BROADCASTSEVENDAYSSB = "SevenDaysItemsSB";
+    private static final String BROADCASTSEVENDAYSSS = "SevenDaysItemsSS";
+
     public String uName;
     public String pWord;
 
     private int visitorsSanitized = 0;
     private int visitorsDidNotSanitize = 0;
+    private int sizeTest = 0;
 
+    //Lists for datahandling
     private List<String> locationNames = new ArrayList<>();
     private List<BehaviourItem> behaviourData = new ArrayList<>();
     private List<SanitizeItem> sanitizeItems = new ArrayList<>();
     private ArrayList<SanitizeItem> locationSpecificSanitizeItems = new ArrayList<>();
-    private List<AverageBehaviourItem> averageBehaviourItems = new ArrayList<>();
     private List<AverageBehaviourItem> lastSevenAverageBehaviourItems = new ArrayList<>();
+    private List<SummedBehavioursItem> lastSevenSummedBehaviourItems = new ArrayList<>();
+    private List<SummedSanitizersItem> lastSevenSummedSanitizerItems = new ArrayList<>();
 
     private APIBehaviourConnection APIBehaviourConnection = new APIBehaviourConnection(BackgroundService.this);
     private APISanitizeItemConnection APISanitizeItemConnection = new APISanitizeItemConnection(BackgroundService.this);
     private APIAverageBehaviorConnection APIAverageBehaviorConnection = new APIAverageBehaviorConnection(BackgroundService.this);
+    private APISummedBehaviourConnection APISummedBehaviourConnection = new APISummedBehaviourConnection(BackgroundService.this);
+    private APISummedSanitizerConnection APISummedSanitizerConnection = new APISummedSanitizerConnection(BackgroundService.this);
     private APISignInConnection apiSignInConnection = new APISignInConnection(BackgroundService.this);
 
 
@@ -79,30 +93,25 @@ public class BackgroundService extends Service {
         LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
     }
 
-    private void broadcastSevenDaysItems(){
+    private void broadcastSevenDaysABItems(){
         Intent broadcastIntent = new Intent();
-        broadcastIntent.setAction(BROADCASTSEVENDAYS);
+        broadcastIntent.setAction(BROADCASTSEVENDAYSAB);
         LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
     }
 
-    public void getLastSevenDaysOverview(){
-          APIAverageBehaviorConnection.getSevenDaysOverview(uName, pWord, new APIAverageBehaviorConnection.VolleyResponseListener() {
-            @Override
-            public void onError(String message) { }
-
-            @Override
-            public void onResponse(List<AverageBehaviourItem> response) {
-                averageBehaviourItems = response;
-
-                for (int i = 0; i < averageBehaviourItems.size(); i++){
-                    lastSevenAverageBehaviourItems.add(averageBehaviourItems.get(averageBehaviourItems.size()-1-i));
-                }
-                broadcastSevenDaysItems();
-            }
-        });
+    private void broadcastSevenDaysSBItems(){
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.setAction(BROADCASTSEVENDAYSSB);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
     }
 
-    //Gets the data as soon as an user has signed in, and this data will be used throughout this userscenario
+    public void broadcastSevenDaysSSItems(){
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.setAction(BROADCASTSEVENDAYSSS);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
+    }
+
+    //Getting and handling data
     public void getAPIData(){
         APIBehaviourConnection.getBehaviours(uName, pWord, new APIBehaviourConnection.VolleyResponseListener() {
             @Override
@@ -126,22 +135,10 @@ public class BackgroundService extends Service {
         });
     }
 
-    public void SignIn(String userName, String password, Callback callback) {
-        apiSignInConnection.userName = userName;
-        apiSignInConnection.password = password;
-
-        uName = userName;
-        pWord = password;
-
-        apiSignInConnection.isSignedIn(callback);
-    }
-
-    public void getLocationAndDateSpecificData(final String location) {
+    public void getLocationSpecificSanitizeItems(final String location) {
         APISanitizeItemConnection.getLocationAndDateSpecificData(uName, pWord, new APISanitizeItemConnection.VolleyResponseListener() {
             @Override
-            public void onError(String message) {
-
-            }
+            public void onError(String message) { }
 
             @Override
             public void onResponse(List<SanitizeItem> response) {
@@ -154,6 +151,83 @@ public class BackgroundService extends Service {
                     }
                 }
                 broadcastLocationSpecificData();
+            }
+        });
+    }
+
+    public void getLastSevenDaysABOverview(){
+          APIAverageBehaviorConnection.getSevenDaysOverview(uName, pWord, new APIAverageBehaviorConnection.VolleyResponseListener() {
+            @Override
+            public void onError(String message) { }
+
+            @Override
+            public void onResponse(List<AverageBehaviourItem> response) {
+                sizeTest = 0;
+
+                if (response.size() < 8){
+                    sizeTest = response.size();
+                }
+                else {
+                    sizeTest = 7;
+                }
+
+                for (int i = 0; i < sizeTest; i++){
+                    lastSevenAverageBehaviourItems.add(response.get(response.size()-1-i));
+                }
+                broadcastSevenDaysABItems();
+            }
+        });
+    }
+
+    public void getLastSevenDaysSBOverview(){
+        APISummedBehaviourConnection.getSummedBehaviours(uName, pWord, new APISummedBehaviourConnection.VolleyResponseListener() {
+            @Override
+            public void onError(String message) {
+
+            }
+
+            @Override
+            public void onResponse(List<SummedBehavioursItem> response) {
+                sizeTest = 0;
+
+                if (response.size() < 8){
+                    sizeTest = response.size();
+                }
+                else {
+                    sizeTest = 7;
+                }
+
+
+                for (int i = 0; i < sizeTest; i++){
+                    lastSevenSummedBehaviourItems.add(response.get(response.size()-1-i));
+                }
+                broadcastSevenDaysSBItems();
+            }
+        });
+    }
+
+    public void getLastSevenDaysSSOverview(){
+        APISummedSanitizerConnection.getSummedSanitizerData(uName, pWord, new APISummedSanitizerConnection.VolleyResponseListener() {
+            @Override
+            public void onError(String message) {
+
+            }
+
+            @Override
+            public void onResponse(List<SummedSanitizersItem> response) {
+                sizeTest = 0;
+
+                if (response.size() < 8){
+                    sizeTest = response.size();
+                }
+                else {
+                    sizeTest = 7;
+                }
+
+                for (int i = 0; i < sizeTest; i++){
+                    lastSevenSummedSanitizerItems.add(response.get(response.size()-1-i));
+                }
+                broadcastSevenDaysSSItems();
             }
         });
     }
@@ -181,7 +255,19 @@ public class BackgroundService extends Service {
         return visitorsDidNotSanitize;
     }
 
-    public List<AverageBehaviourItem> returnLastSevenDaysOverview(){ return lastSevenAverageBehaviourItems;}
+    public List<AverageBehaviourItem> returnLastSevenDaysABOverview(){ return lastSevenAverageBehaviourItems;}
+    public List<SummedBehavioursItem> returnLastSevenDaysSBOverview(){ return lastSevenSummedBehaviourItems;}
+    public List<SummedSanitizersItem> returnLastSevenDaysSSOverview(){ return lastSevenSummedSanitizerItems;}
+
+    public void SignIn(String userName, String password, Callback callback) {
+        apiSignInConnection.userName = userName;
+        apiSignInConnection.password = password;
+
+        uName = userName;
+        pWord = password;
+
+        apiSignInConnection.isSignedIn(callback);
+    }
 
     @Override
     public void onDestroy() {

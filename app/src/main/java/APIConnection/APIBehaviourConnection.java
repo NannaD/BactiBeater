@@ -50,7 +50,7 @@ public class APIBehaviourConnection extends AppCompatActivity {
     }
 
     //Sending request and getting the behaviouritem
-    public void getBehaviours(String _userName, String _password, final VolleyResponseListener listener)
+    public void getBehaviours(String _userName, String _password, final APIBehaviourConnection.VolleyResponseListener listener)
     {
         userName = _userName;
         password = _password;
@@ -72,10 +72,9 @@ public class APIBehaviourConnection extends AppCompatActivity {
                        String beaconId = behaviour.getString("beaconId");
                        String beaconInteractionTime = behaviour.getString("beaconInteractionTime"); //burde være datetime
                        String beaconName = behaviour.getString("beaconName");
-                       String date = behaviour.getString("date");
                        boolean didSanitize = behaviour.getBoolean("didSanitize");
 
-                       BehaviourItem behaviourItem = new BehaviourItem(behaviourModelId, bactiBeaterId, beaconId, beaconInteractionTime, beaconName, date, didSanitize);
+                       BehaviourItem behaviourItem = new BehaviourItem(behaviourModelId, bactiBeaterId, beaconId, beaconInteractionTime, beaconName, didSanitize);
                        behaviourItems.add(behaviourItem);
 
                    } catch (JSONException e) {

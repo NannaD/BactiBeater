@@ -26,5 +26,8 @@
     <string name="number_of_visitors">Visitors</string>
     <string name="visitors_sanitized">Sanitations</string>
     <string name="seven_days_overview_navigation">See 7 days overview</string>
-
+    <string name="last_seven_days_overview">Overview for the last seven days</string>
+    <string name="data_average_behaviour_last_seven_days">Average location changes and sanitations for one person</string>
+    <string name="data_summed_behaviour_last_seven_days">Sum of location changes and sanitations</string>
+    <string name="data_summed_sanitations_last_seven_days">Sum of sanitations at location changes and ...</string>
 </resources>

@@ -27,4 +27,8 @@
     <string name="number_of_visitors">Besøgende</string>
     <string name="visitors_sanitized">Afspritninger</string>
     <string name="seven_days_overview_navigation">Se 7 dages overblik</string>
+    <string name="last_seven_days_overview">Oversigt over de seneste syv dage</string>
+    <string name="data_average_behaviour_last_seven_days">Gennemsnitlige lokalitetskift og afspritninger for en besøgende</string>
+    <string name="data_summed_behaviour_last_seven_days">Sum af lokalitetsskift henholdsvis med og uden afspritning</string>
+    <string name="data_summed_sanitations_last_seven_days">Sum af afspritninger henholdsvis ved og uden lokalitetsskift</string>
 </resources>
